@@ -22,3 +22,7 @@ body {
   color: rgb(var(--foreground-rgb));
   background: secondary-gradient;
 }
+.block {
+  display: flex;
+  flex-direction: column;
+}

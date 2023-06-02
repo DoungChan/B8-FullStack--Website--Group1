@@ -1,3 +1,7 @@
+import UnauthorizeComponent from "./components/UnauthorizeComponent";
+
+UnauthorizeComponent;
+
 export default function Home() {
   return (
     <main
@@ -13,6 +17,9 @@ export default function Home() {
             Next.js!
           </a>
         </h1>
+        <div className=" flex-col items-center ">
+          <UnauthorizeComponent />
+        </div>
       </div>
     </main>
   );
