@@ -20,5 +20,6 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: secondary-gradient;
+  /* background: secondary-gradient; */
+  background-color: var(--lightble);
 }
