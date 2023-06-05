@@ -6,11 +6,13 @@ const PopularPromotions = () => {
   return (
     <div className="m-4 flex justify-center">
       <div>
-        <h1 className="my-8 text-2xl font-bold">Check other popular deals</h1>
+        <h1 className="my-8 text-2xl font-bold text-font_color">
+          Check other popular deals
+        </h1>
         <div>
           <div className="grid grid-cols-4 gap-8">
-            {Promotions.map((promotion) => {
-              return <PromotionCard promotion={promotion} />;
+            {Promotions.map((promotion, index) => {
+              return <PromotionCard promotion={promotion} key={index} />;
             })}
           </div>
         </div>
