@@ -1,5 +1,6 @@
 import PopularPromotions from "@/components/popular/PopularPromotions";
 import Navbar from "../components/navbar/Navbar";
+import UnauthorizeComponent from "@/components/unauthorized/UnauthorizeComponent";
 
 export default function Home() {
   return (

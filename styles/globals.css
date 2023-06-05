@@ -23,3 +23,7 @@ body {
   /* background: secondary-gradient; */
   background-color: var(--lightble);
 }
+.block {
+  display: flex;
+  flex-direction: column;
+}
