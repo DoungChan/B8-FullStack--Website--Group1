@@ -7,9 +7,8 @@ export const Layout = ({ children }) => {
   return (
     <div>
       <Navbar />
-      <PopularPromotions />
-      <Footer />
       {children}
+      <Footer />
     </div>
   );
 };
