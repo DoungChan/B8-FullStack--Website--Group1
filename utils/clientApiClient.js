@@ -1,12 +1,9 @@
 import axios from "axios";
+import Router from "next/router";
 
-const apiClient = axios.create({
-  baseURL: "http://localhost:8080/promo_kh",
-});
+const clientApiClient = axios.create({});
 
-apiClient.defaults.headers.common['Api-Token'] = 'scbnsk289248nscsndk298km';
-
-apiClient.interceptors.response.use(
+clientApiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -16,23 +13,23 @@ apiClient.interceptors.response.use(
 
       if (refreshToken) {
         try {
-          const response = await apiClient.post("/auth/access-token", {
+          const response = await clientApiClient.post("api/auth/accessToken", {
             refreshToken,
           });
 
           const { accessToken } = response.data.data;
 
-          apiClient.defaults.headers.common[
+          clientApiClient.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${accessToken}`;
 
           originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
 
-          return apiClient(originalRequest);
+          return clientApiClient(originalRequest);
         } catch (error) {
           localStorage.removeItem("refreshToken");
           localStorage.removeItem("accessToken");
-          window.location.href = "/unauthorized";
+          Router.push("/unauthorized");
         }
       }
     }
@@ -41,4 +38,4 @@ apiClient.interceptors.response.use(
   }
 );
 
-export default apiClient;
+export default clientApiClient;
