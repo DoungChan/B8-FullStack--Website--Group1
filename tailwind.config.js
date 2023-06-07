@@ -22,6 +22,11 @@ module.exports = {
         primary: "#6F47EB",
         secondary: "#FFFFFF",
         font_color: "#1E1926",
+        sub_font_color: "#5E5D6D",
+
+        lightBlue: "#BFE8FF",
+        blue: "#005EAB",
+
       },
     },
   },
