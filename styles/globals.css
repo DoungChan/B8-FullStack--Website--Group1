@@ -27,3 +27,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+.block {
+  display: flex;
+  flex-direction: column;
+}
