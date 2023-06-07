@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import SignUpModal from "../modal/SignUp";
 
 const NabarCard = ({ icon1, title1, icon2, title2 }) => {
   return (
@@ -12,12 +13,7 @@ const NabarCard = ({ icon1, title1, icon2, title2 }) => {
             {title1}
           </a>
         </li>
-        <li className="flex w-full justify-start items-center p-2">
-          <Image src={icon2} className="w-4 h-4" alt="Love" />
-          <a href="#" className="text-primary font-sans font-thin text-sm pl-2">
-            {title2}
-          </a>
-        </li>
+        <SignUpModal />
       </ul>
     </div>
   );
