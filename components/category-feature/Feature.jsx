@@ -6,7 +6,7 @@ import timeIcon from "public/icon/time.svg";
 
 export default function Feature() {
   return (
-    <div className="mt-20 text-font_color">
+    <div className="mt-28 text-font_color">
       <h2 className="font-bold text-2xl px-2 py-4 lg:text-left sm:text-center">
         Hey, check out today&#39;s hottest promotions
       </h2>

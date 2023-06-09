@@ -31,7 +31,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-transparent ">
+    <nav className="w-full bg-white fixed">
       <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm ">
         <div className="relative flex items-start">
           <a href="#" className="flex justify-start">
