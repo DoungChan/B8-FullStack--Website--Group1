@@ -13,13 +13,16 @@ export default function Feature() {
 
       <div className="flex flex-row flex-wrap justify-center items-center">
         <div className="p-2">
-          <Image
-            src={orange}
-            width={418}
-            height={232}
-            alt="image"
-            className="rounded-md"
-          />
+          <div className="relative max-w-md overflow-hidden bg-cover bg-no-repeat rounded-md">
+            <Image
+              src={orange}
+              className="max-w-md transition duration-300 ease-in-out hover:scale-110"
+              width={418}
+              height={232}
+              alt="image"
+            />
+          </div>
+
           <div className="flex flex-col flex-wrap pt-3">
             <div className="flex flex-row">
               <Image src={timeIcon} width={23} height={23} alt="timeIcon" />
@@ -27,7 +30,7 @@ export default function Feature() {
             </div>
             <div className="text-lg font-bold">ABC Restaurant Drink</div>
             <div className="text-base">Street 704, Phnom Penh</div>
-            <div className="flex flex-row pt-1">
+            <div className="flex flex-row pt-1 items-center">
               <div className="flex flex-row text-xl">
                 <div className="line-through">$10</div>
                 <div className="font-bold px-1">$5</div>
@@ -41,13 +44,15 @@ export default function Feature() {
           </div>
         </div>
         <div className="p-2">
-          <Image
-            src={drink}
-            width={418}
-            height={232}
-            alt="image"
-            className="rounded-md"
-          />
+          <div className="relative max-w-md overflow-hidden bg-cover bg-no-repeat rounded-md">
+            <Image
+              src={drink}
+              className="max-w-md transition duration-300 ease-in-out hover:scale-110"
+              width={418}
+              height={232}
+              alt="image"
+            />
+          </div>
           <div className="flex flex-col flex-wrap pt-3">
             <div className="flex flex-row">
               <Image src={timeIcon} width={23} height={23} alt="timeIcon" />
@@ -55,7 +60,7 @@ export default function Feature() {
             </div>
             <div className="text-lg font-bold">ABC Restaurant Drink</div>
             <div className="text-base">Street 704, Phnom Penh</div>
-            <div className="flex flex-row pt-1">
+            <div className="flex flex-row pt-1 items-center">
               <div className="flex flex-row text-xl">
                 <div className="line-through">$10</div>
                 <div className="font-bold px-1">$5</div>
@@ -69,13 +74,15 @@ export default function Feature() {
           </div>
         </div>
         <div className="p-2">
-          <Image
-            src={smoothie}
-            width={418}
-            height={232}
-            alt="image"
-            className="rounded-md"
-          />
+          <div className="relative max-w-md overflow-hidden bg-cover bg-no-repeat rounded-md">
+            <Image
+              src={smoothie}
+              className="max-w-md transition duration-300 ease-in-out hover:scale-110"
+              width={418}
+              height={232}
+              alt="image"
+            />
+          </div>
           <div className="flex flex-col flex-wrap pt-3">
             <div className="flex flex-row">
               <Image src={timeIcon} width={23} height={23} alt="timeIcon" />
@@ -83,7 +90,7 @@ export default function Feature() {
             </div>
             <div className="text-lg font-bold">ABC Restaurant Drink</div>
             <div className="text-base">Street 704, Phnom Penh</div>
-            <div className="flex flex-row pt-1">
+            <div className="flex flex-row pt-1 items-center">
               <div className="flex flex-row text-xl">
                 <div className="line-through">$10</div>
                 <div className="font-bold px-1">$5</div>
