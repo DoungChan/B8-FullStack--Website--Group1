@@ -10,7 +10,7 @@ const PopularPromotions = () => {
           Check other popular deals
         </h1>
         <div>
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
             {Promotions.map((promotion, index) => {
               return <PromotionCard promotion={promotion} key={index} />;
             })}
