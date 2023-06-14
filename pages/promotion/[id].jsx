@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
-
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 const PromotionDtail = () => {
   const [isHoveredSavePromotiom, setIsHoveredSavePromotiom] = useState(false);
   const [isHoveredGetPromotion, setIsHoveredGetPromotion] = useState(false);
@@ -11,7 +12,20 @@ const PromotionDtail = () => {
   const handleHoverGetPromotion = () => {
     setIsHoveredGetPromotion(!isHoveredGetPromotion);
   };
-
+  const slides = [
+    {
+      src: "https://picsum.photos/seed/img1/600/400",
+      alt: "Image 1 for carousel",
+    },
+    {
+      src: "https://picsum.photos/seed/img2/600/400",
+      alt: "Image 2 for carousel",
+    },
+    {
+      src: "https://picsum.photos/seed/img3/600/400",
+      alt: "Image 3 for carousel",
+    },
+  ];
   return (
     <div className="mx-10">
       <section className="">
@@ -35,12 +49,17 @@ const PromotionDtail = () => {
                 Street 704, Phnom Penh
               </p>
             </button>
-            <div className="flex flex-row mt-5 w-full  rounded-[15px] ">
-              <img
-                src="https://picsum.photos/500/300"
-                alt=""
-                className="object-cover w-full h-[425px] rounded-md"
-              />
+            <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
+              <Carousel infiniteLoop stopOnHover={true} showThumbs={false}>
+                {slides.map((slide, key) => (
+                  <img
+                    src={slide.src}
+                    alt="Image 1"
+                    key={key}
+                    className="object-cover w-full h-[425px] rounded-[15px]"
+                  />
+                ))}
+              </Carousel>
             </div>
           </div>
           <div className="flex flex-col w-full md:w-1/2 lg:w-1/2 mt-3 lg:mt-20 ">
