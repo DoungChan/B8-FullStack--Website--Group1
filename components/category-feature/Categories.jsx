@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
+
 const categories = [
   { id: 1, imageSrc: "/Categories/category1.png" },
   { id: 2, imageSrc: "/Categories/category2.png" },
@@ -9,6 +10,7 @@ const categories = [
   { id: 5, imageSrc: "/Categories/grocery.png" },
   { id: 6, imageSrc: "/Categories/others.png" },
 ];
+
 
 export default function Categories() {
   return (
