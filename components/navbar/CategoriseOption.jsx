@@ -9,7 +9,7 @@ function CategoriseOption() {
   const router = useRouter();
 
   const categories = useRecoilValue(categoryAtom);
-  console.log(categories);
+
   const [openCategory, setOpenCategory] = useState(false);
   const ref = useRef();
   useEffect(() => {
