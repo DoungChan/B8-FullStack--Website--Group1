@@ -2,15 +2,20 @@ import { useEffect } from "react";
 import { Promotions } from "@/components/popular/Promotions";
 import PromotionCard from "@/components/popular/PromotionCard";
 import { useRouter } from "next/router";
-import { Categories } from "./Categories";
 import { TailSpin } from "react-loader-spinner";
+import { atom, useRecoilState, useRecoilValue } from "recoil";
+import { categoryAtom } from "@/state/recoilAtoms";
+
+
 
 const CategoryDetail = () => {
+
+  const categories = useRecoilValue(categoryAtom);
   const router = useRouter();
   const { categoryId } = router.query;
 
   // Find the category based on the categoryId
-  const category = Categories.find((cat) => cat.id === Number(categoryId));
+  const category = categories.find((cat) => cat.id === Number(categoryId));
 
   useEffect(() => {
     if (categoryId && !category) {
