@@ -1,14 +1,23 @@
-import serverApiClient from "@/utils/serverApiClient";
-
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
-      const response = await serverApiClient.post("/auth/register", req.body, {
-        headers: req.headers,
+      const apiUrl = process.env.API_URL;
+      const apiToken = process.env.API_TOKEN;
+
+      const response = await fetch(`${apiUrl}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Api-Token": apiToken,
+        },
+        body: JSON.stringify(req.body),
       });
-      res.status(response.status).json(response.data);
+
+      const data = await response.json();
+
+      res.status(response.status).json(data);
     } catch (error) {
-      res.status(error.response.status).json(error.response.data);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   } else {
     res.status(405).json({ message: "Method Not Allowed" });
