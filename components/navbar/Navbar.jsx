@@ -11,10 +11,13 @@ import NabarCard from "./NabarCard";
 import login from "public/login.svg";
 import signup from "public/signup.svg";
 import CreateCard from "./CreateCard";
+import Link from "next/link";
+
 const Navbar = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const ref = useRef();
+
   const handleClickProfileOpen = () => {
     setIsProfileOpen(!isProfileOpen);
     setIsCreateOpen(false);
@@ -41,9 +44,11 @@ const Navbar = () => {
 
         <div className="hidden sm:inline md:flex md:space-x-4 justify-end items-center w-[500px]">
           <CategoriseOption onClick={() => handleClickOutside()} />
-          <button className="text-sub_font_color font-sans text-sm">
-            <span className="flex-1">What&apos;s New</span>
-          </button>
+          <Link href="/whatNew">
+            <button className="text-sub_font_color font-sans text-sm">
+              <span className="flex-1">What&apos;s New</span>
+            </button>
+          </Link>
         </div>
 
         <div className="flex justify-end items-center ml-aut w-full">
