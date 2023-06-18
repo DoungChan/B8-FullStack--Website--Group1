@@ -27,7 +27,7 @@ const PromotionCard = ({ promotion }) => {
           <p className="mr-2 font-bold text-font_color">
             ${promotion.discount_price}
           </p>
-          <p className="bg-lightblue rounded-[4px] p-1 text-xs">
+          <p className="bg-lightBlue rounded-[4px] p-1 text-xs text-blue font-bold">
             {promotion.discount_percentage}% OFF
           </p>
         </div>

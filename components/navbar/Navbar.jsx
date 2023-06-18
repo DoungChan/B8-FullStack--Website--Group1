@@ -10,10 +10,14 @@ import post_new_deal from "public/post-new-deal.svg";
 import NabarCard from "./NabarCard";
 import login from "public/login.svg";
 import signup from "public/signup.svg";
+import CreateCard from "./CreateCard";
+import Link from "next/link";
+
 const Navbar = () => {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const ref = useRef();
+
   const handleClickProfileOpen = () => {
     setIsProfileOpen(!isProfileOpen);
     setIsCreateOpen(false);
@@ -24,30 +28,14 @@ const Navbar = () => {
     setIsProfileOpen(false);
   };
 
-  useEffect(() => {
-    // Function to handle clicks outside the component
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setIsCreateOpen(false);
-        setIsProfileOpen(false);
-      }
-    }
-
-    // Attach the event listener to the document
-    document.addEventListener("click", handleClickOutside);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+  const handleCloseCreate = () => {
+    setIsCreateOpen(false);
+    setIsProfileOpen(false);
+  };
 
   return (
-    <nav className="w-full bg-transparent ">
-      <div
-        ref={ref}
-        className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm "
-      >
+    <nav className="w-full bg-white fixed z-10">
+      <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm ">
         <div className="relative flex items-start">
           <a href="#" className="flex justify-start">
             <Image src={logo} width={270} alt="PromoKH" />
@@ -55,10 +43,12 @@ const Navbar = () => {
         </div>
 
         <div className="hidden sm:inline md:flex md:space-x-4 justify-end items-center w-[500px]">
-          <CategoriseOption />
-          <button className="text-sub_font_color font-sans text-sm">
-            <span className="flex-1">What&apos;s New</span>
-          </button>
+          <CategoriseOption onClick={() => handleClickOutside()} />
+          <Link href="/whatNew">
+            <button className="text-sub_font_color font-sans text-sm">
+              <span className="flex-1">What&apos;s New</span>
+            </button>
+          </Link>
         </div>
 
         <div className="flex justify-end items-center ml-aut w-full">
@@ -76,12 +66,7 @@ const Navbar = () => {
               />
             </button>
             {isProfileOpen && (
-              <NabarCard
-                icon1={login}
-                title1={"Login"}
-                icon2={signup}
-                title2={"Sign up"}
-              />
+              <NabarCard handleClickOutside={handleCloseCreate} />
             )}
           </div>
 
@@ -94,11 +79,12 @@ const Navbar = () => {
             </button>
 
             {isCreateOpen && (
-              <NabarCard
+              <CreateCard
                 icon1={post_new_deal}
                 title1={"Post new deal"}
                 icon2={love}
                 title2={"My saved collection"}
+                handleClickOutside={handleCloseCreate}
               />
             )}
           </div>

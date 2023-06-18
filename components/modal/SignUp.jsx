@@ -4,7 +4,7 @@ import signup from "public/signup.svg";
 import logo from "public/logo.png";
 import close from "public/close.svg";
 import loading from "public/loading.svg";
-import apiClient from "@/utils/apiClient";
+import clientApiClient from "@/utils/clientApiClient";
 
 export default function SignUpModal() {
   const [showModal, setShowModal] = React.useState(false);
@@ -17,16 +17,16 @@ export default function SignUpModal() {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    const url = "/auth/register";
+    const url = "api/auth/register";
 
     try {
-      const response = await apiClient.post(url, {
+      const response = await clientApiClient.post(url, {
         email,
         password,
       });
 
       const { accessToken, refreshToken } = response.data.data;
-      apiClient.defaults.headers.common[
+      clientApiClient.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${accessToken}`;
 

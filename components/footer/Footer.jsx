@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="bg-primary px-[48px] text-white">
-      <div className="flex justify-between py-[72px]">
+      <div className="min-[480px]:flex justify-between py-[72px]">
         <div>
           <p className="font-bold">PromoKh</p>
           <p className="pt-2">
@@ -11,7 +11,7 @@ const Footer = () => {
             promotions and discounts
           </p>
         </div>
-        <div>
+        <div className="max-[480px]:mt-4">
           <div className="flex">
             <div className="mr-20">
               <p className="font-bold">Categories</p>

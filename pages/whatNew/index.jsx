@@ -1,13 +1,14 @@
+import Link from "next/link";
 import React from "react";
-import { Promotions } from "./Promotions";
-import PromotionCard from "./PromotionCard";
+import PromotionCard from "@/components/popular/PromotionCard";
+import { Promotions } from "@/components/popular/Promotions";
 
-const PopularPromotions = () => {
+const WhatNew = () => {
   return (
     <div className="m-4 flex justify-center">
       <div>
         <h1 className="my-8 text-2xl font-bold text-font_color">
-          Check other popular deals
+          {"What's new"}
         </h1>
         <div>
           <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
@@ -21,4 +22,4 @@ const PopularPromotions = () => {
   );
 };
 
-export default PopularPromotions;
+export default WhatNew;

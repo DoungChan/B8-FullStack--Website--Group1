@@ -1,7 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import arrowdown from "public/arrow-down.svg";
+import { useRouter } from "next/router";
+import { categoryAtom } from "@/state/recoilAtoms";
+import { atom, useRecoilState, useRecoilValue } from "recoil";
+
 function CategoriseOption() {
+  const router = useRouter();
+
+  const categories = useRecoilValue(categoryAtom);
+
   const [openCategory, setOpenCategory] = useState(false);
   const ref = useRef();
   useEffect(() => {
@@ -48,60 +56,18 @@ function CategoriseOption() {
           tabindex="-1"
         >
           <div className="py-1" role="none">
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-0"
-            >
-              Travel
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-1"
-            >
-              Food
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-2"
-            >
-              Tech
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-2"
-            >
-              Fashion
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-2"
-            >
-              Automoative
-            </a>
-            <a
-              href="#"
-              className="text-gray-700 block px-4 py-2 text-sm"
-              role="menuitem"
-              tabindex="-1"
-              id="menu-item-2"
-            >
-              Grocery
-            </a>
+            {categories.map((category, index) => (
+              <a
+                key={index}
+                onClick={() => router.push(`/category/${category.id}`)}
+                className="text-gray-700 block px-4 py-2 text-sm cursor-pointer"
+                role="menuitem"
+                tabindex="-1"
+                id="menu-item-0"
+              >
+                {category.name}
+              </a>
+            ))}
           </div>
         </div>
       )}
