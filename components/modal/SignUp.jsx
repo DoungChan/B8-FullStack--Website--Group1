@@ -44,6 +44,7 @@ export default function SignUpModal() {
       }
     } finally {
       setIsLoading(false);
+      window.location.reload();
     }
   };
 
