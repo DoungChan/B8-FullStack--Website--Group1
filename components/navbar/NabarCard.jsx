@@ -30,7 +30,7 @@ const NabarCard = ({ handleClickOutside }) => {
           </div>
         ) : (
           <div>
-            <Link href="/userProfile">
+            <Link href="/userprofile">
               <button
                 className="flex w-full justify-start items-center p-2"
                 type="button"
