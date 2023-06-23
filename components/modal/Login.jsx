@@ -4,9 +4,52 @@ import Image from "next/image";
 import logo from "public/logo.png";
 import login from "public/login.svg";
 import close from "public/close.svg";
+import loading from "public/loading.svg";
+import clientApiClient from "@/utils/clientApiClient";
+
 const Login = () => {
   const [isShowModal, setShowModal] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+
+  const handleLogin = async (event) => {
+    setIsLoading(true);
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const url = "api/auth/login";
+
+    try {
+      const response = await clientApiClient.post(url, {
+        email,
+        password,
+      });
+
+      const { accessToken, refreshToken } = response.data.data;
+      clientApiClient.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      setShowModal(false);
+      setErrorMessage("");
+    } catch (error) {
+      console.log(error);
+      if (error.response.data.status === 403) {
+        setErrorMessage("Wrong Credentials.");
+      } else {
+        setErrorMessage("Login failed.");
+      }
+    } finally {
+      setIsLoading(false);
+      window.location.reload();
+    }
+  };
+
+
+
   return (
     <>
       <button
@@ -36,7 +79,10 @@ const Login = () => {
                 <div className="text-black text-3xl mb-3 font-medium">
                   Welcome, back
                 </div>
-                <form>
+                <form onSubmit={handleLogin}>
+
+        
+
                   <input
                     className="appearance-none border-2 border-slate-400 w-full focus:outline-none focus:bg-white focus:border-primary rounded-md p-2 px-4 mb-3 text-black"
                     id="email"

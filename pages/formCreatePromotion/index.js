@@ -41,7 +41,6 @@ const PromotionForm = () => {
       location: e.target.form.location.value,
     });
   };
-  console.log(form);
 
   const changeCategory = ({ item }) => {
     setCategory(item.name);
