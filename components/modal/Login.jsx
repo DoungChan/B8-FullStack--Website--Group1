@@ -4,12 +4,15 @@ import Image from "next/image";
 import logo from "public/logo.png";
 import login from "public/login.svg";
 import close from "public/close.svg";
+import { useRecoilState } from "recoil";
+import { profileCardAtom } from "@/state/recoilAtoms";
 import loading from "public/loading.svg";
 import clientApiClient from "@/utils/clientApiClient";
 
 const Login = () => {
   const [isShowModal, setShowModal] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const handleLogin = async (event) => {
@@ -48,8 +51,6 @@ const Login = () => {
     }
   };
 
-
-
   return (
     <>
       <button
@@ -67,7 +68,7 @@ const Login = () => {
               <div className="flex justify-end items-center">
                 <button
                   className="inline-flex items-center justify-center w-8 h-8 mr-2 mt-2 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-gray-200"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => setIsProfileOpen(false)}
                 >
                   <Image src={close} className="w-4 h-4" alt="Love" />
                 </button>
@@ -80,9 +81,6 @@ const Login = () => {
                   Welcome, back
                 </div>
                 <form onSubmit={handleLogin}>
-
-        
-
                   <input
                     className="appearance-none border-2 border-slate-400 w-full focus:outline-none focus:bg-white focus:border-primary rounded-md p-2 px-4 mb-3 text-black"
                     id="email"

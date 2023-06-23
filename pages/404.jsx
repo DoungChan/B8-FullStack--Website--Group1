@@ -5,12 +5,6 @@ import Head from "next/head";
 const PageNotFound = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    setTimeout(() => {
-      router.back();
-    }, 10000);
-  }, []);
-
   return (
     <>
       <Head>

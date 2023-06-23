@@ -12,10 +12,11 @@ import login from "public/login.svg";
 import signup from "public/signup.svg";
 import CreateCard from "./CreateCard";
 import Link from "next/link";
-
+import { profileCardAtom, ceateCardAtom } from "@/state/recoilAtoms";
+import { useRecoilState } from "recoil";
 const Navbar = () => {
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useRecoilState(ceateCardAtom);
+  const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
   const ref = useRef();
 
   const handleClickProfileOpen = () => {
@@ -62,9 +63,10 @@ const Navbar = () => {
                 width={33}
                 height={33}
                 alt="Profile"
-                onClick={handleClickProfileOpen}
+                onClick={() => handleClickProfileOpen()}
               />
             </button>
+
             {isProfileOpen && (
               <NabarCard handleClickOutside={handleCloseCreate} />
             )}
@@ -73,7 +75,7 @@ const Navbar = () => {
           <div className="relative inline-block text-sub_font_color font-sans text-sm">
             <button
               className="relative flex text-secondary justify-center items-center font-sans text-sm sm:text-xs md:text-xs lg:text-base sm:w-16 md:w-16 lg:w-28 h-9 sm:h-11 bg-primary rounded-md px-2 ml-3 md:ml-3 whitespace-nowrap"
-              onClick={handleClickCreateOpen}
+              onClick={() => handleClickCreateOpen()}
             >
               + Create
             </button>

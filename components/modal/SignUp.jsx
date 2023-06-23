@@ -5,12 +5,13 @@ import logo from "public/logo.png";
 import close from "public/close.svg";
 import loading from "public/loading.svg";
 import clientApiClient from "@/utils/clientApiClient";
-
+import { useRecoilState } from "recoil";
+import { profileCardAtom } from "@/state/recoilAtoms";
 export default function SignUpModal() {
   const [showModal, setShowModal] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-
+  const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
   const handleSubmit = async (event) => {
     setIsLoading(true);
     event.preventDefault();
@@ -66,7 +67,7 @@ export default function SignUpModal() {
                 <div className="flex justify-end items-center">
                   <button
                     className="inline-flex items-center justify-center w-8 h-8 mr-2 mt-2 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-gray-200"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => setIsProfileOpen(false)}
                   >
                     <Image src={close} className="w-4 h-4" alt="Love" />
                   </button>

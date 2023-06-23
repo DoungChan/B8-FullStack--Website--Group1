@@ -1,31 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-const PromotionDtail = () => {
+import { useRecoilState, useRecoilValue } from "recoil";
+import { promotionDetailAtom } from "@/state/recoilAtoms";
+import { convertTimestamp } from "@/utils/convertTimestamp";
+import { useRouter } from "next/router";
+const PromotionDtail = ({ data, error }) => {
+  const router = useRouter();
   const [isHoveredSavePromotiom, setIsHoveredSavePromotiom] = useState(false);
   const [isHoveredGetPromotion, setIsHoveredGetPromotion] = useState(false);
-
+  const [promotionDetailData, setPromotionDetailData] =
+    useRecoilState(promotionDetailAtom);
+  const promtiondata = useRecoilValue(promotionDetailAtom);
   const handleHoverSavePromotion = () => {
     setIsHoveredSavePromotiom(!isHoveredSavePromotiom);
   };
   const handleHoverGetPromotion = () => {
     setIsHoveredGetPromotion(!isHoveredGetPromotion);
   };
-  const slides = [
-    {
-      src: "https://picsum.photos/seed/img1/600/400",
-      alt: "Image 1 for carousel",
-    },
-    {
-      src: "https://picsum.photos/seed/img2/600/400",
-      alt: "Image 2 for carousel",
-    },
-    {
-      src: "https://picsum.photos/seed/img3/600/400",
-      alt: "Image 3 for carousel",
-    },
-  ];
+
+  useEffect(() => {
+    if (data) {
+      setPromotionDetailData(data.data);
+    }
+  }, [data]);
+
+  const handleGetPromotion = () => {
+    if (data.data.promotion_url === "") {
+      alert("No promotion url");
+    } else {
+      window.open(data.data.promotion_url);
+    }
+  };
   return (
     <div className="mx-10">
       <section className="">
@@ -51,14 +58,26 @@ const PromotionDtail = () => {
             </button>
             <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
               <Carousel infiniteLoop stopOnHover={true} showThumbs={false}>
-                {slides.map((slide, key) => (
-                  <img
-                    src={slide.src}
-                    alt="Image 1"
-                    key={key}
-                    className="object-cover w-full h-[425px] rounded-[15px]"
-                  />
-                ))}
+                {data.data.image_url_list === null ? (
+                  <div>
+                    <img
+                      src={
+                        "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
+                      }
+                      alt="Image 1"
+                      className="object-cover w-full h-[425px] rounded-[15px]"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    {" "}
+                    <img
+                      src={data.data.image_url_list}
+                      alt="Image 1"
+                      className="object-cover w-full h-[425px] rounded-[15px]"
+                    />
+                  </div>
+                )}
               </Carousel>
             </div>
           </div>
@@ -72,26 +91,22 @@ const PromotionDtail = () => {
                 height={24}
               />
               <p className="text-primary font-sans font-thin text-sm pl-2">
-                23 May - 26 May
+                {convertTimestamp(data.data.created_date)}
               </p>
             </div>
             <div className="py-[20px]">
               <h1 className="text-font_color font-sans pb-3">Detail</h1>
-              <p class="text-sub_font_color font-sans font-thin text-sm">
-                When you&apos;re hungry for pizza, say, &ldquo;Life is short.
-                Eat better pizza. Let&apos;s get Jet&apos;s.&rdquo; Enjoy $20
-                worth of take-out at Jet&apos;s Pizza with this Deal and dig
-                into pizzas, breads, boats, and more for take-out, yours for
-                $10.
+              <p className="text-sub_font_color font-sans font-thin text-sm">
+                {data.data.promotion_detail}
               </p>
             </div>
             <div className="">
               <h1 className="text-font_color font-sans pb-3">Contact</h1>
               <p className="text-sub_font_color font-sans font-thin text-sm">
-                Tel: 012 345 678
+                Tel: {data.data.contact_number}
               </p>
               <p className="text-sub_font_color font-sans font-thin text-sm">
-                FackBook : ot ey dak
+                FackBook : {data.data.facebook_name}
               </p>
             </div>
             <div className="flex flex-col w-full">
@@ -119,6 +134,7 @@ const PromotionDtail = () => {
                     ? "bg-primary text-white"
                     : " bg-transparent text-primary"
                 }`}
+                onClick={() => handleGetPromotion()}
                 onMouseEnter={handleHoverGetPromotion}
                 onMouseLeave={handleHoverGetPromotion}
               >
@@ -157,4 +173,44 @@ const PromotionDtail = () => {
     </div>
   );
 };
+
+// getserver side props
+export const getServerSideProps = async (context) => {
+  const urlApi = process.env.API_URL;
+  const api_token = process.env.API_TOKEN;
+  const { id } = context.query;
+
+  try {
+    const res = await fetch(
+      `${urlApi}/promotion_detail/get?promotion_id=${id}`,
+      {
+        headers: {
+          "api-token": `${api_token}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.status !== 200) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        error: true,
+      },
+    };
+  }
+};
+
 export default PromotionDtail;

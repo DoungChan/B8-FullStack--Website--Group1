@@ -29,4 +29,20 @@ export const categoryAtom = atom({
     },
   ],
 });
-//create atoms for cart
+//create atoms for promotion details
+export const promotionDetailAtom = atom({
+  key: "promotionDetailAtom",
+  default: [],
+});
+
+// create atoms for handle modal
+export const profileCardAtom = atom({
+  key: "profileCardAtom",
+  default: false,
+});
+
+// create atoms for handle modal
+export const ceateCardAtom = atom({
+  key: "ceateCardAtom",
+  default: false,
+});
