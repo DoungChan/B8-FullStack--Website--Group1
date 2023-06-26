@@ -3,14 +3,13 @@ import { atom, useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { promotionsAtom } from "@/state/recoilAtoms";
 
-
 export default function Feature({ promotionsData }) {
   const [promotions, setPromotions] = useRecoilState(promotionsAtom);
   useEffect(() => {
-    setPromotions(promotionsData);
+    setPromotions(promotionsData.data);
   }, [promotionsData, setPromotions]);
 
-  console.log("promotionsData:", promotionsData);
+  console.log("promotionsData:", promotionsData.data);
 
   return (
     <div className="mt-28 text-font_color">
@@ -18,8 +17,8 @@ export default function Feature({ promotionsData }) {
         Hey, check out today&#39;s hottest promotions
       </h2>
       <div className="flex flex-row flex-wrap justify-center items-center">
-        {promotions &&
-          promotions.map((promotion, index) => (
+        {promotionsData &&
+          promotionsData.data.map((promotion, index) => (
             <div className="p-2" key={index}>
               <Image
                 src={promotion.feature_image_url}
@@ -62,39 +61,3 @@ export default function Feature({ promotionsData }) {
     </div>
   );
 }
-
-export const getServerSideProps = async (context) => {
-  console.log("Hery");
-  const urlApi = process.env.API_URL;
-  console.log("Hery");
-  const api_token = process.env.API_TOKEN;
-  const { category_id } = context.query;
-
-  try {
-    console.log("during fetch");
-    const res = await fetch(
-      `${urlApi}/promotion/get?category_Id=${category_id}`,
-      {
-        headers: {
-          "api-token": `${api_token}`,
-        },
-      }
-    );
-
-    const promotionsData = await res.json();
-    console.log("promotionsData:", promotionsData);
-
-    return {
-      props: {
-        promotionsData,
-      },
-    };
-  } catch (error) {
-    console.error("Error during fetch:", error);
-    return {
-      props: {
-        promotionsData: [],
-      },
-    };
-  }
-};
