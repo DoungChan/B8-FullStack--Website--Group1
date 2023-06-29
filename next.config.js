@@ -9,4 +9,9 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig
+module.exports = {
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.API_URL,
+    NEXT_PUBLIC_API_TOKEN: process.env.API_TOKEN,
+  },
+};

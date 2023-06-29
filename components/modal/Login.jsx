@@ -29,13 +29,14 @@ const Login = () => {
         password,
       });
 
-      const { accessToken, refreshToken } = response.data.data;
+      const { accessToken, refreshToken, userId } = response.data.data;
       clientApiClient.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${accessToken}`;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("userId", userId);
       setShowModal(false);
       setErrorMessage("");
     } catch (error) {
