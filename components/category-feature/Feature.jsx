@@ -24,11 +24,11 @@ export default function Feature({ featureData }) {
             )
             .map((promotion, index) => (
               <div className="p-2" key={index}>
-                <div className="w-[418px] h-[350px]">
+                <div className="w-[360px] sm:w-[410px] h-[350px]">
                   <div className="w-full h-[232px]">
                     <Image
                       src={promotion.feature_image_url}
-                      width={418}
+                      width={400}
                       height={232}
                       alt="image"
                       className="w-full h-full object-cover rounded-lg"
