@@ -9,7 +9,7 @@ const PromotionCard = ({ promotion }) => {
     "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png";
 
   return (
-    <div className="w-[302px] h-[298px]">
+    <div className="w-[302px] h-[298px] md:w-auto md:h-auto lg:w-[302px] lg:h-[298px]">
       <div className="w-full h-[184px]">
         <img
           src={imageUrl}
