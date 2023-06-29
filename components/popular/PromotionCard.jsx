@@ -1,12 +1,18 @@
 import React from "react";
 import { BsClock } from "react-icons/bs";
+import { convertTimestamp } from "@/utils/convertTimestamp";
 
 const PromotionCard = ({ promotion }) => {
+  // Replace feature_image_url if it is null or empty
+  const imageUrl =
+    promotion.feature_image_url ||
+    "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png";
+
   return (
     <div className="w-[302px] h-[298px]">
       <div className="w-full h-[184px]">
         <img
-          src={promotion.feature_image_url}
+          src={imageUrl}
           alt={promotion.title}
           className="w-full h-full object-cover rounded-lg"
         />
@@ -15,7 +21,8 @@ const PromotionCard = ({ promotion }) => {
         <div className="flex items-center text-font_color">
           <BsClock />
           <p className="ml-2 text-font_color">
-            {promotion.start_date} - {promotion.end_date}
+            {convertTimestamp(promotion.start_date)} -{" "}
+            {convertTimestamp(promotion.end_date)}
           </p>
         </div>
         <p className="font-bold text-font_color">{promotion.title}</p>

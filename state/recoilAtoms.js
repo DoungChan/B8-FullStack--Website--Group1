@@ -53,7 +53,17 @@ export const ceateCardAtom = atom({
   default: false,
 });
 
+export const featureAtom = atom({
+  key: "featureAtom",
+  default: [],
+});
+
 export const promotionsAtom = atom({
   key: "promotionsAtom",
+  default: [],
+});
+
+export const categoryHomeAtom = atom({
+  key: "categoryHomeAtom",
   default: [],
 });
