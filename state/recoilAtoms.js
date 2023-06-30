@@ -53,6 +53,13 @@ export const ceateCardAtom = atom({
   default: false,
 });
 
+
+// search atom
+export const searchAtom = atom({
+  key: "searchAtom",
+  default: "",
+});
+
 export const featureAtom = atom({
   key: "featureAtom",
   default: [],
@@ -67,3 +74,4 @@ export const categoryHomeAtom = atom({
   key: "categoryHomeAtom",
   default: [],
 });
+
