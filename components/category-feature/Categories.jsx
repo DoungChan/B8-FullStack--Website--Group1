@@ -13,8 +13,11 @@ export default function Categories({ categoryData }) {
 
   return (
     <div className="mt-10 text-font_color">
-      <h2 className="font-bold text-2xl px-2 py-4 lg:text-left sm:text-center">
-        Search different categories
+      <h2 className="font-bold text-2xl px-2 py-4 pb-6 lg:text-left sm:text-center">
+        Search{" "}
+        <span className="underline underline-offset-8 decoration-softPurple decoration-8">
+          different Category
+        </span>
       </h2>
       <div className="flex flex-row flex-wrap justify-center items-center">
         {categoryData.data &&
