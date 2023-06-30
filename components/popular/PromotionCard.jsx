@@ -4,9 +4,14 @@ import { convertTimestamp } from "@/utils/convertTimestamp";
 import Link from "next/link";
 
 const PromotionCard = ({ promotion }) => {
+  // Replace feature_image_url if it is null or empty
+  const imageUrl =
+    promotion.feature_image_url ||
+    "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png";
+
   return (
     <Link href={`/promotion/${promotion.id}`}>
-      <div className="w-[302px] h-[298px]">
+      <div className="w-[302px] h-[298px] md:w-auto md:h-auto">
         <div className="w-full h-[184px]">
           <img
             src={

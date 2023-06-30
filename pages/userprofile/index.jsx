@@ -35,12 +35,12 @@ const UserProfile = ({ data }) => {
           </h1>
           <div className="flex">
             <div onClick={() => setActive("post")} className="cursor-pointer">
-              <h3 className={`${active === "post" && "font-bold"} mr-12`}>
+              <h3 className={`${active === "post" && "font-bold"} mr-12 text-font_color`}>
                 Your Posts
               </h3>
             </div>
             <div onClick={() => setActive("save")} className="cursor-pointer">
-              <h3 className={`${active === "save" && "font-bold"}`}>
+              <h3 className={`${active === "save" && "font-bold"} text-font_color`}>
                 Saved Collections
               </h3>
             </div>
@@ -51,13 +51,13 @@ const UserProfile = ({ data }) => {
         </div>
         <div className="mt-6">
           {active === "post" ? (
-            <div className="">
+            <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
               {postedPromotions.map((promotion, index) => {
                 return <PromotionCard promotion={promotion} key={index} />;
               })}
             </div>
           ) : (
-            <div>
+            <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
               {savedPromotions.map((promotion, index) => {
                 return <PromotionCard promotion={promotion} key={index} />;
               })}
