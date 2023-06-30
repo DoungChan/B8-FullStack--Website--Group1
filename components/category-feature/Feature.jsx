@@ -14,8 +14,11 @@ export default function Feature({ featureData }) {
 
   return (
     <div className="mt-28 text-font_color">
-      <h2 className="font-bold text-2xl px-2 py-4 lg:text-left sm:text-center">
-        Hey, check out today hottest promotions
+      <h2 className="font-bold text-2xl px-2 py-4 pb-8 lg:text-left sm:text-center">
+        Hey, check out today{" "}
+        <span className="underline underline-offset-8 decoration-softPurple decoration-8">
+          hottest promotions
+        </span>
       </h2>
       <div className="flex flex-row flex-wrap justify-center items-center">
         {featureData &&

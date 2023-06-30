@@ -18,7 +18,10 @@ const PopularPromotions = ({ promotionsData }) => {
       <div className="m-4 flex justify-center">
         <div>
           <h1 className="my-8 text-2xl font-bold text-font_color">
-            Check other popular deals
+            Check other{" "}
+            <span className="underline underline-offset-8 decoration-softPurple decoration-8">
+              popular deals
+            </span>
           </h1>
           <div>
             <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
@@ -29,10 +32,10 @@ const PopularPromotions = ({ promotionsData }) => {
           </div>
         </div>
       </div>
-      <CustomPagination
+      {/* <CustomPagination
         resPerPage={24}
         promotionsCount={promotionsData.totalElements}
-      />
+      /> */}
     </div>
   );
 };
