@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import { featureAtom } from "@/state/recoilAtoms";
@@ -26,13 +27,15 @@ export default function Feature({ featureData }) {
               <div className="p-2" key={index}>
                 <div className="w-[360px] sm:w-[410px] h-[350px]">
                   <div className="w-full h-[232px]">
-                    <Image
-                      src={promotion.feature_image_url}
-                      width={400}
-                      height={232}
-                      alt="image"
-                      className="w-full h-full object-cover rounded-lg"
-                    />
+                    <Link href={`/promotion/${promotion.id}`}>
+                      <Image
+                        src={promotion.feature_image_url}
+                        width={400}
+                        height={232}
+                        alt="image"
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    </Link>
                   </div>
                   <div className="flex flex-col flex-wrap pt-3">
                     <div className="flex flex-row">
