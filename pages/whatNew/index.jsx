@@ -1,9 +1,20 @@
 import React from "react";
 import PromotionCard from "@/components/popular/PromotionCard";
 import { Promotions } from "@/components/popular/Promotions";
-import CustomPagination from "@/components/pagination/CustomPagination"
+import { searchAtom } from "@/state/recoilAtoms";
+import { useRecoilValue } from "recoil";
+import { useRouter } from "next/router";
+import CustomPagination from "@/components/pagination/CustomPagination";
+
 
 const WhatNew = ({ data }) => {
+  const router = useRouter();
+  const query = router.query.search || "";
+
+  const searchValue = useRecoilValue(searchAtom);
+
+  const title =
+    query === "" ? "What's new" : `Search result for "${searchValue}"`;
   return (
     <div className="py-10">
       <div className="m-10 flex justify-center">
@@ -25,35 +36,71 @@ const WhatNew = ({ data }) => {
   );
 };
 
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async (context) => {
   const urlApi = process.env.API_URL;
   const api_token = process.env.API_TOKEN;
-  const page = query.page || 0;
-  const size = query.size || 24;
-  try {
-    const res = await fetch(`${urlApi}/promotion/get?category_Id=&page=${page}&size=${size}`, {
-      headers: {
-        "api-token": `${api_token}`,
-      },
-    });
-    const data = await res.json();
-    console.log("viddddd", data);
-    if (data.status !== 200) {
+  const searchValue = context.query.search || "";
+  const page = context.query.page || 0;
+  const size = context.query.size || 24;
+  if (searchValue === "") {
+    try {
+      const res = await fetch(
+        `${urlApi}/promotion/get?category_Id=&page=${page}&size=${size}`,
+        {
+          headers: {
+            "api-token": `${api_token}`,
+          },
+        }
+      );
+      const data = await res.json();
+
+      if (data.status !== 200) {
+        return {
+          notFound: true,
+        };
+      }
       return {
-        notFound: true,
+        props: {
+          data,
+        },
+      };
+    } catch (error) {
+      return {
+        props: {
+          error: true,
+        },
       };
     }
-    return {
-      props: {
-        data,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        error: true,
-      },
-    };
+  } else {
+    try {
+      const res = await fetch(
+        `${urlApi}/promotion/search?query=${searchValue}`,
+        {
+          headers: {
+            "api-token": `${api_token}`,
+          },
+        }
+      );
+      const data = await res.json();
+
+      if (data.status !== 200) {
+        return {
+          notFound: true,
+        };
+      }
+
+      return {
+        props: {
+          data,
+        },
+      };
+    } catch (error) {
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
   }
 };
 

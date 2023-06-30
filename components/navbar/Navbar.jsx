@@ -35,12 +35,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-white fixed z-10">
-      <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm ">
+    <nav className="w-full top-0 bg-white fixed z-10 pb-3">
+      <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm">
         <div className="relative flex items-start">
-          <a href="#" className="flex justify-start">
+          <Link href="/">
             <Image src={logo} width={270} alt="PromoKH" />
-          </a>
+          </Link>
         </div>
 
         <div className="hidden sm:inline md:flex md:space-x-4 justify-end items-center w-[500px]">
