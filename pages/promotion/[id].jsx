@@ -3,19 +3,34 @@ import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { promotionDetailAtom } from "@/state/recoilAtoms";
+import {
+  loginModalAtom,
+  profileCardAtom,
+  promotionDetailAtom,
+  savedPromotionsAtom,
+} from "@/state/recoilAtoms";
 import { convertTimestamp } from "@/utils/convertTimestamp";
 import { useRouter } from "next/router";
 import { neutral } from "tailwindcss/colors";
+import clientApiClient from "@/utils/clientApiClient";
+
 const PromotionDtail = ({ promotionData, error }) => {
   const router = useRouter();
-  const [isHoveredSavePromotiom, setIsHoveredSavePromotiom] = useState(false);
+  const [isHoveredSavePromotion, setIsHoveredSavePromotion] = useState(false);
   const [isHoveredGetPromotion, setIsHoveredGetPromotion] = useState(false);
+  const [isPromotionSaved, setIsPromotionSaved] = useState(false);
+
+  const [showLoginModal, setShowLoginModal] = useRecoilState(loginModalAtom);
+  const [showProfile, setShowProfile] = useRecoilState(profileCardAtom);
+  const [savedPromotions, setSavedPromotions] =
+    useRecoilState(savedPromotionsAtom);
   const [promotionDetailData, setPromotionDetailData] =
     useRecoilState(promotionDetailAtom);
+
   const promtiondata = useRecoilValue(promotionDetailAtom);
+
   const handleHoverSavePromotion = () => {
-    setIsHoveredSavePromotiom(!isHoveredSavePromotiom);
+    setIsHoveredSavePromotion(!isHoveredSavePromotion);
   };
   const handleHoverGetPromotion = () => {
     setIsHoveredGetPromotion(!isHoveredGetPromotion);
@@ -27,6 +42,36 @@ const PromotionDtail = ({ promotionData, error }) => {
     }
   }, [promotionData]);
 
+  useEffect(() => {
+    async function getSavedPromotions() {
+      const accessToken = localStorage.getItem("accessToken");
+
+      if (!accessToken) return;
+
+      const url = "api/promotion/saved/get";
+
+      clientApiClient.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
+
+      const response = await clientApiClient.get(url);
+
+      setSavedPromotions(response.data.data);
+    }
+
+    getSavedPromotions();
+  }, [setSavedPromotions]);
+
+  useEffect(() => {
+    if (savedPromotions.length === 0) return;
+
+    const isSaved = savedPromotions.some((savedPromotion) => {
+      return savedPromotion.id === router.query.id;
+    });
+
+    setIsPromotionSaved(isSaved);
+  }, [savedPromotions, router.query.id]);
+
   const handleGetPromotion = () => {
     if (promotionData.promotion_detail.image_url_list === "") {
       alert("No promotion url");
@@ -34,6 +79,36 @@ const PromotionDtail = ({ promotionData, error }) => {
       window.open(promotionData.promotion_detail.image_url_list);
     }
   };
+
+  const handleClickSavePromotion = async (event) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      setShowProfile(true);
+      setShowLoginModal(true);
+      return;
+    }
+
+    event.preventDefault();
+
+    const deleteUrl = `api/promotion/saved/delete?promotionId=${router.query.id}`;
+    const addUrl = "api/promotion/saved/add";
+
+    clientApiClient.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${accessToken}`;
+
+    if (isPromotionSaved) {
+      await clientApiClient.delete(deleteUrl);
+      setIsPromotionSaved(false);
+    } else {
+      await clientApiClient.post(addUrl, {
+        promotionId: router.query.id,
+      });
+      setIsPromotionSaved(true);
+    }
+  };
+
   return (
     <div className="mx-10">
       <div>
@@ -132,25 +207,45 @@ const PromotionDtail = ({ promotionData, error }) => {
                   <div className="flex flex-col w-full">
                     <button
                       className={`${
-                        isHoveredSavePromotiom
+                        isHoveredSavePromotion
                           ? "bg-primary text-white"
                           : "bg-transparent text-primary"
                       } flex justify-center items-center font-sans font-semibold text-sm h-[58px] rounded-[10px] mt-10 border-primary border duration-500 hover:text-white hover:bg-primary`}
                       onMouseEnter={handleHoverSavePromotion}
                       onMouseLeave={handleHoverSavePromotion}
+                      onClick={handleClickSavePromotion}
                     >
-                      <Image
-                        src={
-                          isHoveredSavePromotiom
-                            ? "/whitelove.svg"
-                            : "/love.svg"
-                        }
-                        className="w-4 h-4 mr-2"
-                        alt="Love"
-                        width={24}
-                        height={24}
-                      />
-                      Save Promotion
+                      {isPromotionSaved ? (
+                        <>
+                          <Image
+                            src={
+                              isHoveredSavePromotion
+                                ? "/heart-off-outline-custom.png"
+                                : "/heart-off-custom.png"
+                            }
+                            className="w-4 h-4 mr-2"
+                            alt="Unsave"
+                            width={24}
+                            height={24}
+                          />
+                          Unsave Promotion
+                        </>
+                      ) : (
+                        <>
+                          <Image
+                            src={
+                              isHoveredSavePromotion
+                                ? "/whitelove.svg"
+                                : "/love.svg"
+                            }
+                            className="w-4 h-4 mr-2"
+                            alt="Love"
+                            width={24}
+                            height={24}
+                          />
+                          Save Promotion
+                        </>
+                      )}
                     </button>
                     <button
                       className={`duration-500 flex justify-center items-center  font-sans font-semibold text-sm h-[58px] rounded-[10px] mt-2 border-primary border ${

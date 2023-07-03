@@ -1,7 +1,9 @@
 import axios from "axios";
 import Router from "next/router";
 
-const clientApiClient = axios.create({});
+const clientApiClient = axios.create({
+  baseURL: process.env.NEXT_SERVER_SIDE_API_URL,
+});
 
 clientApiClient.interceptors.response.use(
   (response) => response,
