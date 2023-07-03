@@ -5,11 +5,9 @@ import { useRouter } from "next/router";
 import { TailSpin } from "react-loader-spinner";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
 import { categoryAtom } from "@/state/recoilAtoms";
-
-
+import Head from "next/head";
 
 const CategoryDetail = () => {
-
   const categories = useRecoilValue(categoryAtom);
   const router = useRouter();
   const { categoryId } = router.query;
@@ -39,21 +37,27 @@ const CategoryDetail = () => {
   );
 
   return (
-    <div className="flex justify-center py-24">
-      {/* Rest of the category detail page */}
-      <div>
-        <h1 className="my-8 text-2xl font-bold text-font_color">
-          {category.name}
-        </h1>
+    <>
+      <Head>
+        <title>Category | Promotion</title>
+        <link rel="icon" href="/logo.png" />
+      </Head>
+      <div className="flex justify-center py-24">
+        {/* Rest of the category detail page */}
         <div>
-          <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
-            {categoryPromotions.map((promotion, index) => (
-              <PromotionCard promotion={promotion} key={index} />
-            ))}
+          <h1 className="my-8 text-2xl font-bold text-font_color">
+            {category.name}
+          </h1>
+          <div>
+            <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+              {categoryPromotions.map((promotion, index) => (
+                <PromotionCard promotion={promotion} key={index} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

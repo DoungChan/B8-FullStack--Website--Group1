@@ -7,17 +7,24 @@ import PromotionForm from "../pages/formCreatePromotion";
 import Category from "../components/category-feature/Categories";
 import HotPromotion from "../components/category-feature/Feature";
 import Feature from "../components/category-feature/Feature";
+import Head from "next/head";
 
 export default function Home({ featureData, promotionsData, categoryData }) {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between `}
-    >
-      <Feature featureData={featureData} />
-      <Category categoryData={categoryData} />
+    <>
+      <Head>
+        <title>Home | PromoKh </title>
+        <link rel="icon" href="/logo.png" />
+      </Head>
+      <main
+        className={`flex min-h-screen flex-col items-center justify-between `}
+      >
+        <Feature featureData={featureData} />
+        <Category categoryData={categoryData} />
 
-      <PopularPromotions promotionsData={promotionsData} />
-    </main>
+        <PopularPromotions promotionsData={promotionsData} />
+      </main>
+    </>
   );
 }
 export const getServerSideProps = async ({ query }) => {
