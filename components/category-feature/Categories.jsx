@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import { useEffect } from "react";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
@@ -37,4 +36,4 @@ export default function Categories({ categoryData }) {
       </div>
     </div>
   );
-}
+};
