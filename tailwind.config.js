@@ -26,7 +26,7 @@ module.exports = {
 
         lightBlue: "#BFE8FF",
         blue: "#005EAB",
-
+        softPurple: "#a991f3",
       },
     },
   },

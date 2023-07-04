@@ -10,6 +10,13 @@ const Footer = () => {
             provide users with a platform to explore and access the latest
             promotions and discounts
           </p>
+          <br />
+          <br />
+          <br />
+          
+          <p>
+            <a href="https://storyset.com/web">Web illustrations by Storyset</a>
+          </p>
         </div>
         <div className="max-[480px]:mt-4">
           <div className="flex">

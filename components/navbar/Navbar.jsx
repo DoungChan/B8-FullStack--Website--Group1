@@ -12,11 +12,13 @@ import login from "public/login.svg";
 import signup from "public/signup.svg";
 import CreateCard from "./CreateCard";
 import Link from "next/link";
-
+import { profileCardAtom, ceateCardAtom } from "@/state/recoilAtoms";
+import { useRecoilState } from "recoil";
 const Navbar = () => {
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useRecoilState(ceateCardAtom);
+  const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
   const ref = useRef();
+
 
   const handleClickProfileOpen = () => {
     setIsProfileOpen(!isProfileOpen);
@@ -34,12 +36,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-white fixed z-10">
-      <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm ">
+    <nav className="w-full top-0 bg-white fixed z-10 pb-3">
+      <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm">
         <div className="relative flex items-start">
-          <a href="#" className="flex justify-start">
+          <Link href="/">
             <Image src={logo} width={270} alt="PromoKH" />
-          </a>
+          </Link>
         </div>
 
         <div className="hidden sm:inline md:flex md:space-x-4 justify-end items-center w-[500px]">
@@ -62,9 +64,10 @@ const Navbar = () => {
                 width={33}
                 height={33}
                 alt="Profile"
-                onClick={handleClickProfileOpen}
+                onClick={() => handleClickProfileOpen()}
               />
             </button>
+
             {isProfileOpen && (
               <NabarCard handleClickOutside={handleCloseCreate} />
             )}
@@ -73,7 +76,7 @@ const Navbar = () => {
           <div className="relative inline-block text-sub_font_color font-sans text-sm">
             <button
               className="relative flex text-secondary justify-center items-center font-sans text-sm sm:text-xs md:text-xs lg:text-base sm:w-16 md:w-16 lg:w-28 h-9 sm:h-11 bg-primary rounded-md px-2 ml-3 md:ml-3 whitespace-nowrap"
-              onClick={handleClickCreateOpen}
+              onClick={() => handleClickCreateOpen()}
             >
               + Create
             </button>

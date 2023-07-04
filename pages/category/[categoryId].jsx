@@ -1,60 +1,91 @@
 import { useEffect } from "react";
-import { Promotions } from "@/components/popular/Promotions";
 import PromotionCard from "@/components/popular/PromotionCard";
 import { useRouter } from "next/router";
 import { TailSpin } from "react-loader-spinner";
-import { atom, useRecoilState, useRecoilValue } from "recoil";
-import { categoryAtom } from "@/state/recoilAtoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { promotionsAtom } from "@/state/recoilAtoms";
+import { categoryHomeAtom } from "@/state/recoilAtoms";
+import CustomPagination from "@/components/pagination/CustomPagination";
 
-
-
-const CategoryDetail = () => {
-
-  const categories = useRecoilValue(categoryAtom);
+const CategoryDetail = ({ data, error }) => {
   const router = useRouter();
-  const { categoryId } = router.query;
-
-  // Find the category based on the categoryId
-  const category = categories.find((cat) => cat.id === Number(categoryId));
+  const categoryInformation = useRecoilValue(categoryHomeAtom);
+  const [promotionsCategory, setPromotionsCategory] =
+    useRecoilState(promotionsAtom);
 
   useEffect(() => {
-    if (categoryId && !category) {
-      // Redirect to 404 page when category is not found
-      router.push("/404");
+    if (data) {
+      setPromotionsCategory(data.data); // Update the state with data.data
     }
-  }, [categoryId, category, router]);
+  }, [data]);
 
-  if (!category) {
-    // Render a loading spinner or message while redirecting to 404 page
-    return (
-      <div className="flex justify-center items-center p-48">
-        <TailSpin color="#00BFFF" height={80} width={80} />
-      </div>
-    );
-  }
+  console.log(data);
 
-  // Get the promotions for the selected category
-  const categoryPromotions = Promotions.filter(
-    (promotion) => promotion.categoryId === category.id
+  const categoryId = router.query.categoryId;
+  const category = categoryInformation.find(
+    (category) => category.id === categoryId
   );
+  const categoryName = category ? category.name : "";
 
   return (
-    <div className="flex justify-center py-24">
-      {/* Rest of the category detail page */}
-      <div>
-        <h1 className="my-8 text-2xl font-bold text-font_color">
-          {category.name}
-        </h1>
+    <div className="py-24">
+      <div className="flex justify-center">
+        {/* Rest of the category detail page */}
         <div>
-          <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
-            {categoryPromotions.map((promotion, index) => (
-              <PromotionCard promotion={promotion} key={index} />
-            ))}
+          <h1 className="my-8 text-2xl font-bold text-font_color">
+            {categoryName}
+          </h1>
+          <div>
+            <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+              {data.data.map((promotion, index) => (
+                <PromotionCard promotion={promotion} key={index} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
+      <CustomPagination resPerPage={24} promotionsCount={data.totalElements} />
     </div>
   );
 };
 
+export const getServerSideProps = async (context) => {
+  const urlApi = process.env.API_URL;
+  const api_token = process.env.API_TOKEN;
+  const { categoryId } = context.query;
+  console.log(context.query);
+
+  try {
+    const res = await fetch(
+      `${urlApi}/promotion/get?category_id=${categoryId}&page=0&size=24`,
+      {
+        headers: {
+          "api-token": api_token,
+        },
+      }
+    );
+
+    const data = await res.json();
+    console.log(data);
+
+    if (data.status !== 200) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        error: true,
+      },
+    };
+  }
+};
 export default CategoryDetail;
