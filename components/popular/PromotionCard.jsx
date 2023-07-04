@@ -11,7 +11,7 @@ const PromotionCard = ({ promotion }) => {
 
   return (
     <Link href={`/promotion/${promotion.id}`}>
-      <div className="w-[302px] h-[298px] md:w-auto md:h-auto">
+      <div className="w-[302px] h-[298px] md:w-[150px] md:h-[298px] lg:w-[302px] lg:h-[298px]">
         <div className="w-full h-[184px]">
           <img
             src={

@@ -21,17 +21,25 @@ const WhatNew = ({ data }) => {
         <title>What New | PromoKh</title>
         <link rel="icon" href="/logo.png" />
       </Head>
-      <div className="m-4 mt-20 flex justify-center">
-        <div>
-          <h1 className="my-8 text-2xl font-bold text-font_color">{title}</h1>
+      <div className="py-10">
+        <div className="m-10 flex justify-center">
           <div>
-            <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
-              {data?.data?.map((promotion, index) => {
-                return <PromotionCard promotion={promotion} key={index} />;
-              })}
+            <h1 className="my-8 text-2xl font-bold text-font_color">
+              {"What's new"}
+            </h1>
+            <div>
+              <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+                {data?.data?.map((promotion, index) => {
+                  return <PromotionCard promotion={promotion} key={index} />;
+                })}
+              </div>
             </div>
           </div>
         </div>
+        <CustomPagination
+          resPerPage={24}
+          promotionsCount={data.totalElements}
+        />
       </div>
     </>
   );
