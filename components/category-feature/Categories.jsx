@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
 import { categoryAtom, categoryHomeAtom } from "@/state/recoilAtoms";
+import Link from "next/link";
 
 export default function Categories({ categoryData }) {
   const [category, setCategory] = useRecoilState(categoryHomeAtom);
@@ -36,4 +37,4 @@ export default function Categories({ categoryData }) {
       </div>
     </div>
   );
-};
+}
