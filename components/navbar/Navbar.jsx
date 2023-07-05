@@ -16,7 +16,6 @@ const Navbar = () => {
   const [isCreateOpen, setIsCreateOpen] = useRecoilState(ceateCardAtom);
   const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
 
-
   const handleClickProfileOpen = () => {
     setIsProfileOpen(!isProfileOpen);
     setIsCreateOpen(false);
