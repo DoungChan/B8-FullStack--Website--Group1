@@ -9,20 +9,24 @@ import HotPromotion from "../components/category-feature/Feature";
 import Feature from "../components/category-feature/Feature";
 import Head from "next/head";
 
-export default function Home({ featureData, promotionsData, categoryData }) {
+export default function Home({
+  featureData,
+  promotionsData,
+  categoryData,
+  error,
+}) {
   return (
     <>
       <Head>
         <title>Home | PromoKh </title>
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/icon.png" />
       </Head>
       <main
         className={`flex min-h-screen flex-col items-center justify-between `}
       >
-        <Feature featureData={featureData} />
-        <Category categoryData={categoryData} />
-
-        <PopularPromotions promotionsData={promotionsData} />
+        <Feature featureData={featureData} error={error} />
+        <Category categoryData={categoryData} error={error} />
+        <PopularPromotions promotionsData={promotionsData} error={error} />
       </main>
     </>
   );
@@ -55,11 +59,6 @@ export const getServerSideProps = async ({ query }) => {
         },
       }),
     ]);
-
-    console.log(featureRes.status);
-    console.log(promotionsRes.status);
-    console.log(categoryRes.status);
-
     const [featureData, promotionsData, categoryData] = await Promise.all([
       featureRes.json(),
       promotionsRes.json(),
@@ -74,7 +73,6 @@ export const getServerSideProps = async ({ query }) => {
       },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {
         error: true,

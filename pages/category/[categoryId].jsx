@@ -6,6 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { promotionsAtom } from "@/state/recoilAtoms";
 import { categoryHomeAtom } from "@/state/recoilAtoms";
 import CustomPagination from "@/components/pagination/CustomPagination";
+import Head from "next/head";
 
 const CategoryDetail = ({ data, error }) => {
   const router = useRouter();
@@ -28,24 +29,37 @@ const CategoryDetail = ({ data, error }) => {
   const categoryName = category ? category.name : "";
 
   return (
-    <div className="py-24">
-      <div className="flex justify-center">
-        {/* Rest of the category detail page */}
-        <div>
-          <h1 className="my-8 text-2xl font-bold text-font_color">
-            {categoryName}
-          </h1>
-          <div>
-            <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
-              {data.data.map((promotion, index) => (
-                <PromotionCard promotion={promotion} key={index} />
-              ))}
+    <>
+      <Head>
+        <title>{categoryName} | PromoKh</title>
+        <link rel="icon" href="/icon.png" />
+      </Head>
+      {error ? (
+        () => router.push("/500")
+      ) : (
+        <div className="py-24">
+          <div className="flex justify-center">
+            {/* Rest of the category detail page */}
+            <div>
+              <h1 className="my-8 text-2xl font-bold text-font_color">
+                {categoryName}
+              </h1>
+              <div>
+                <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+                  {data.data.map((promotion, index) => (
+                    <PromotionCard promotion={promotion} key={index} />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
+          <CustomPagination
+            resPerPage={24}
+            promotionsCount={data.totalElements}
+          />
         </div>
-      </div>
-      <CustomPagination resPerPage={24} promotionsCount={data.totalElements} />
-    </div>
+      )}
+    </>
   );
 };
 
@@ -66,7 +80,6 @@ export const getServerSideProps = async (context) => {
     );
 
     const data = await res.json();
-    console.log(data);
 
     if (data.status !== 200) {
       return {

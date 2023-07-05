@@ -25,7 +25,7 @@ const UnauthorizeComponent = () => {
     <>
       <Head>
         <title>Unauthorize | PromoKh </title>
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/icon.png" />
       </Head>
       <div className=" flex min-h-screen flex-col items-center justify-center self-center p-20">
         <div className=" text-black font-bold">
