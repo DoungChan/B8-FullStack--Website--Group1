@@ -1,23 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import SearchBar from "./SearchBar";
 import Image from "next/image";
 import logo from "public/logo.png";
 import profile from "public/profile.svg";
 import CategoriseOption from "./CategoriseOption";
 import search from "public/search.svg";
-import love from "public/love.svg";
-import post_new_deal from "public/post-new-deal.svg";
 import NabarCard from "./NabarCard";
-import login from "public/login.svg";
-import signup from "public/signup.svg";
-import CreateCard from "./CreateCard";
 import Link from "next/link";
 import { profileCardAtom, ceateCardAtom } from "@/state/recoilAtoms";
 import { useRecoilState } from "recoil";
+import { useRouter } from "next/router";
 const Navbar = () => {
+  const router = useRouter();
+
   const [isCreateOpen, setIsCreateOpen] = useRecoilState(ceateCardAtom);
   const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
-  const ref = useRef();
 
 
   const handleClickProfileOpen = () => {
@@ -35,6 +32,7 @@ const Navbar = () => {
     setIsProfileOpen(false);
   };
 
+  const whatNewFocus = router.pathname === "/whatNew" ? true : false;
   return (
     <nav className="w-full top-0 bg-white fixed z-10 pb-3">
       <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm">
@@ -48,7 +46,9 @@ const Navbar = () => {
           <CategoriseOption onClick={() => handleClickOutside()} />
           <Link href="/whatNew">
             <button className="text-sub_font_color font-sans text-sm">
-              <span className="flex-1">What&apos;s New</span>
+              <span className={`flex-1 ${whatNewFocus ? "text-primary" : ""}`}>
+                What&apos;s New
+              </span>
             </button>
           </Link>
         </div>
@@ -76,20 +76,10 @@ const Navbar = () => {
           <div className="relative inline-block text-sub_font_color font-sans text-sm">
             <button
               className="relative flex text-secondary justify-center items-center font-sans text-sm sm:text-xs md:text-xs lg:text-base sm:w-16 md:w-16 lg:w-28 h-9 sm:h-11 bg-primary rounded-md px-2 ml-3 md:ml-3 whitespace-nowrap"
-              onClick={() => handleClickCreateOpen()}
+              onClick={() => router.push("/formCreatePromotion")}
             >
               + Create
             </button>
-
-            {isCreateOpen && (
-              <CreateCard
-                icon1={post_new_deal}
-                title1={"Post new deal"}
-                icon2={love}
-                title2={"My saved collection"}
-                handleClickOutside={handleCloseCreate}
-              />
-            )}
           </div>
         </div>
       </div>

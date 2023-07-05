@@ -31,7 +31,7 @@ const UserProfile = ({ data }) => {
     <ProtectedRoute>
       <Head>
         <title>Profile | Promokh</title>
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/icon.png" />
       </Head>
       <div className="min-h-screen p-11">
         <div>

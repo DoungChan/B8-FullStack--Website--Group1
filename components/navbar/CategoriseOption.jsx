@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import arrowdown from "public/arrow-down.svg";
 import { useRouter } from "next/router";
-import { categoryAtom } from "@/state/recoilAtoms";
+import { categoryAtom, categoryHomeAtom } from "@/state/recoilAtoms";
 import { atom, useRecoilState, useRecoilValue } from "recoil";
 
 function CategoriseOption() {
   const router = useRouter();
 
-  const categories = useRecoilValue(categoryAtom);
+  const categories = useRecoilValue(categoryHomeAtom);
 
   const [openCategory, setOpenCategory] = useState(false);
   const ref = useRef();
