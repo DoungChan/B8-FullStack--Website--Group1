@@ -67,7 +67,7 @@ const PromotionDtail = ({ promotionData, error }) => {
     if (savedPromotions.length === 0) return;
 
     const isSaved = savedPromotions.some((savedPromotion) => {
-      return savedPromotion.id === router.query.id;
+      return savedPromotion && savedPromotion.id === router.query.id;
     });
 
     setIsPromotionSaved(isSaved);
