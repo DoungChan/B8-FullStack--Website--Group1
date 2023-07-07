@@ -8,15 +8,13 @@ import {
   profileCardAtom,
   promotionDetailAtom,
   savedPromotionsAtom,
-  categoryHomeAtom,
 } from "@/state/recoilAtoms";
 import { convertTimestamp } from "@/utils/convertTimestamp";
 import { useRouter } from "next/router";
-
+import { neutral } from "tailwindcss/colors";
 import clientApiClient from "@/utils/clientApiClient";
 
 import Head from "next/head";
-
 const PromotionDtail = ({ promotionData, error }) => {
   const router = useRouter();
   const [isHoveredSavePromotion, setIsHoveredSavePromotion] = useState(false);
@@ -30,8 +28,8 @@ const PromotionDtail = ({ promotionData, error }) => {
   const [promotionDetailData, setPromotionDetailData] =
     useRecoilState(promotionDetailAtom);
 
-  const category = useRecoilValue(categoryHomeAtom);
-  console.log(category);
+  const promtiondata = useRecoilValue(promotionDetailAtom);
+
   const handleHoverSavePromotion = () => {
     setIsHoveredSavePromotion(!isHoveredSavePromotion);
   };
@@ -40,19 +38,10 @@ const PromotionDtail = ({ promotionData, error }) => {
   };
 
   useEffect(() => {
-    function putPromotionData() {
-      if (promotionData) {
-        setPromotionDetailData(promotionData);
-      }
+    if (promotionData) {
+      setPromotionDetailData(promotionData);
     }
-    function handleServerError() {
-      if (error === true) {
-        router.push("/500");
-      }
-    }
-    putPromotionData();
-    handleServerError();
-  }, [promotionData, setPromotionDetailData, error, router]);
+  }, [promotionData, setPromotionDetailData]);
 
   useEffect(() => {
     async function getSavedPromotions() {
@@ -85,10 +74,10 @@ const PromotionDtail = ({ promotionData, error }) => {
   }, [savedPromotions, router.query.id]);
 
   const handleGetPromotion = () => {
-    if (promotionData.promotion_detail.promotion_url === "") {
+    if (promotionData.promotion_detail.image_url_list === "") {
       alert("No promotion url");
     } else {
-      window.open(promotionData.promotion_detail.promotion_url);
+      window.open(promotionData.promotion_detail.image_url_list);
     }
   };
 
@@ -128,7 +117,7 @@ const PromotionDtail = ({ promotionData, error }) => {
         <link rel="icon" href="/icon.png" />
       </Head>
       <>
-        {error === true ? (
+        {error ? (
           () => router.push("/500")
         ) : (
           <>
@@ -153,7 +142,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                     <section className="">
                       <div className="flex flex-col md:flex-col lg:flex-row w-full md:gap-[50px] gap-0">
                         <div className="w-full md:w-3/1 lg:w-3/1">
-                          <h1 className="text-2xl font-bold text-start text-font_color  lg:md-20">
+                          <h1 className="text-2xl font-bold text-start text-font_color mt-28 lg:md-20">
                             {promotionData.promotion.title}
                           </h1>
                           <button
@@ -167,44 +156,45 @@ const PromotionDtail = ({ promotionData, error }) => {
                               width={24}
                               height={24}
                             />
-                            <p className="text-primary font-sans text-sm pl-2">
+                            <p className="text-primary font-sans font-thin text-sm pl-2">
                               {promotionData.promotion.location}
                             </p>
                           </button>
-                          {promotionData.promotion_detail.image_url_list ===
-                          null ? (
-                            <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
-                              <img
-                                src={
-                                  "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
-                                }
-                                alt="Image 1"
-                                className="object-cover w-full h-[425px] rounded-[15px]"
-                              />
-                            </div>
-                          ) : (
-                            <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
-                              <Carousel
-                                infiniteLoop
-                                stopOnHover={true}
-                                showThumbs={false}
-                              >
-                                {promotionData.promotion_detail.image_url_list.map(
-                                  (image, key) => (
-                                    <img
-                                      src={image}
-                                      alt="Image 1"
-                                      key={key}
-                                      className="object-cover w-full h-[425px] rounded-[15px]"
-                                    />
-                                  )
-                                )}
-                              </Carousel>
-                            </div>
-                          )}
+                          <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
+                            <Carousel
+                              infiniteLoop
+                              stopOnHover={true}
+                              showThumbs={false}
+                            >
+                              {promotionData.promotion_detail.image_url_list ===
+                              null ? (
+                                <div>
+                                  <img
+                                    src={
+                                      "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
+                                    }
+                                    alt="Image 1"
+                                    className="object-cover w-full h-[425px] rounded-[15px]"
+                                  />
+                                </div>
+                              ) : (
+                                <div>
+                                  {" "}
+                                  <img
+                                    src={
+                                      promotionData.promotion_detail
+                                        .image_url_list
+                                    }
+                                    alt="Image 1"
+                                    className="object-cover w-full h-[425px] rounded-[15px]"
+                                  />
+                                </div>
+                              )}
+                            </Carousel>
+                          </div>
                         </div>
-                        <div className="flex flex-col w-full md:w-1/2 lg:w-1/2 mt-3 lg:mt-28 ">
-                          <div className="flex flex-row lg:mt-28">
+                        <div className="flex flex-col w-full md:w-1/2 lg:w-1/2 mt-3 lg:mt-20 ">
+                          <div className="flex flex-row lg:mt-10">
                             <Image
                               src={"/time_primcolor.svg"}
                               className="w-4 h-4"
@@ -212,34 +202,30 @@ const PromotionDtail = ({ promotionData, error }) => {
                               width={24}
                               height={24}
                             />
-                            <p className="text-primary font-sans text-sm pl-2">
+                            <p className="text-primary font-sans font-thin text-sm pl-2">
                               {convertTimestamp(
-                                promotionData.promotion.start_date
-                              )}{" "}
-                              -{" "}
-                              {convertTimestamp(
-                                promotionData.promotion.end_date
+                                promotionData.promotion_detail.created_date
                               )}
                             </p>
                           </div>
                           <div className="py-[20px]">
-                            <h1 className="text-font_color font-sans pb-3 font-bold">
+                            <h1 className="text-font_color font-sans pb-3">
                               Detail
                             </h1>
-                            <p className="text-font_color font-sans">
+                            <p className="text-sub_font_color font-sans font-thin text-sm">
                               {promotionData.promotion_detail.promotion_detail}
                             </p>
                           </div>
                           <div className="">
-                            <h1 className="text-font_color font-sans pb-3 font-bold">
+                            <h1 className="text-font_color font-sans pb-3">
                               Contact
                             </h1>
-                            <p className="text-font_color font-sans">
+                            <p className="text-sub_font_color font-sans font-thin text-sm">
                               Tel:{" "}
                               {promotionData.promotion_detail.contact_number}
                             </p>
-                            <p className="text-font_color font-sans">
-                              Facebook :{" "}
+                            <p className="text-sub_font_color font-sans font-thin text-sm">
+                              FackBook :{" "}
                               {promotionData.promotion_detail.facebook_name}
                             </p>
                           </div>
@@ -358,7 +344,6 @@ export const getServerSideProps = async (context) => {
     }
 
     const promotionData = data.data;
-    console.log(promotionData);
     return {
       props: {
         promotionData,
