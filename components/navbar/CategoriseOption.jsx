@@ -53,7 +53,7 @@ function CategoriseOption() {
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
-          tabIndex="-1"
+          tabindex="-1"
         >
           <div
             className="py-1"
@@ -66,7 +66,7 @@ function CategoriseOption() {
                 onClick={() => router.push(`/category/${category.id}`)}
                 className="text-gray-700 block px-4 py-2 text-sm cursor-pointer"
                 role="menuitem"
-                tabIndex="-1"
+                tabindex="-1"
                 id="menu-item-0"
               >
                 {category.name}
