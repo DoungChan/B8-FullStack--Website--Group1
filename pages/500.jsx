@@ -10,7 +10,7 @@ const InternalServerError = () => {
         <meta name="description" content="PromoKH 404 Error" />
         <meta property="og:title" content="404 Error | PromoKH" />
       </Head>
-      <div className="flex flex-col-reverse justify-center pb-20 items-center h-full ">
+      <div className="flex flex-col-reverse justify-center pb-[122px] items-center h-full ">
         <div className="mx-10 text-center justify-center items-center ">
           <div>
             <Image
