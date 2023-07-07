@@ -40,14 +40,11 @@ export const getServerSideProps = async ({ query }) => {
 
   try {
     const [featureRes, promotionsRes, categoryRes] = await Promise.all([
-      fetch(
-        `${urlApi}/promotion/get?category_Id=647975468e324646630dae69&size=24&page=1`,
-        {
-          headers: {
-            "api-token": `${api_token}`,
-          },
-        }
-      ),
+      fetch(`${urlApi}/promotion/get?category_Id=&size=24&page=3`, {
+        headers: {
+          "api-token": `${api_token}`,
+        },
+      }),
       fetch(`${urlApi}/promotion/get?category_Id=&page=${page}&size=${size}`, {
         headers: {
           "api-token": `${api_token}`,
