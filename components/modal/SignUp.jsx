@@ -6,12 +6,30 @@ import close from "public/close.svg";
 import loading from "public/loading.svg";
 import clientApiClient from "@/utils/clientApiClient";
 import { useRecoilState } from "recoil";
-import { profileCardAtom } from "@/state/recoilAtoms";
+import {
+  profileCardAtom,
+  signUpModalAtom,
+  loginModalAtom,
+} from "@/state/recoilAtoms";
+
 export default function SignUpModal() {
-  const [showModal, setShowModal] = React.useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useRecoilState(signUpModalAtom);
+  const [showLoginModal, setShowLoginModal] = useRecoilState(loginModalAtom);
   const [isLoading, setIsLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
+
+  const handleClose = () => {
+    setShowSignUpModal(false);
+    setShowLoginModal(false);
+    setIsProfileOpen(false);
+  };
+
+  const handleLoginClick = () => {
+    setShowLoginModal(true);
+    setShowSignUpModal(false);
+  };
+
   const handleSubmit = async (event) => {
     setIsLoading(true);
     event.preventDefault();
@@ -54,12 +72,12 @@ export default function SignUpModal() {
       <button
         className="flex w-full justify-start items-center p-2"
         type="button"
-        onClick={() => setShowModal(true)}
+        onClick={() => setShowSignUpModal(true)}
       >
         <Image src={signup} className="w-4 h-4" alt="Love" />
         <p className="text-primary font-sans font-thin text-sm pl-2">Sign up</p>
       </button>
-      {showModal ? (
+      {showSignUpModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-full sm:w-1/2 lg:w-1/3 xl:w-1/4  my-6 mx-6">
@@ -67,7 +85,7 @@ export default function SignUpModal() {
                 <div className="flex justify-end items-center">
                   <button
                     className="inline-flex items-center justify-center w-8 h-8 mr-2 mt-2 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-gray-200"
-                    onClick={() => setIsProfileOpen(false)}
+                    onClick={handleClose}
                   >
                     <Image src={close} className="w-4 h-4" alt="Love" />
                   </button>
@@ -117,7 +135,17 @@ export default function SignUpModal() {
                     </button>
                   </form>
                   <div className="flex justify-center text-gray-500 text-xs mt-3">
-                    Already have an account? Login
+                    Already have an account?
+                    <span
+                      onClick={handleLoginClick}
+                      style={{
+                        marginLeft: 5,
+                        cursor: "pointer",
+                        color: "#9747FF",
+                      }}
+                    >
+                      Login
+                    </span>
                   </div>
                 </div>
               </div>

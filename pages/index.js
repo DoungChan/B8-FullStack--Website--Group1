@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import PopularPromotions from "@/components/popular/PopularPromotions";
 import Navbar from "../components/navbar/Navbar";
-import UnauthorizeComponent from "@/components/unauthorized/UnauthorizeComponent";
 import PromotionForm from "../pages/formCreatePromotion";
 import Category from "../components/category-feature/Categories";
 import HotPromotion from "../components/category-feature/Feature";
