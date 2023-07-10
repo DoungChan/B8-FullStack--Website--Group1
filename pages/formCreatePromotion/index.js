@@ -1,6 +1,7 @@
 import clientApiClient from "@/utils/clientApiClient";
 import { useState } from "react";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
+import Head from "next/head";
 const PromotionForm = () => {
   const [category, setCategory] = useState("");
   const [categoryId, setCategoryId] = useState("");
