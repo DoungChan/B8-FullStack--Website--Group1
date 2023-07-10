@@ -55,7 +55,6 @@ const Login = () => {
       setShowModal(false);
       setErrorMessage("");
     } catch (error) {
-      console.log(error);
       if (error.response.data.status === 403) {
         setErrorMessage("Wrong Credentials.");
       } else {

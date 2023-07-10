@@ -35,7 +35,6 @@ export const getServerSideProps = async ({ query }) => {
   const api_token = process.env.API_TOKEN;
   const page = query.page || 0;
   const size = query.size || 24;
-  const category_Id = "647975468e324646630dae67";
 
   try {
     const [featureRes, promotionsRes, categoryRes] = await Promise.all([

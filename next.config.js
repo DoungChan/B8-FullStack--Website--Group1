@@ -10,6 +10,7 @@ const nextConfig = {
     NEXT_SERVER_SIDE_API_URL: process.env.SERVER_SIDE_API_URL,
     NEXT_PUBLIC_API_URL: process.env.API_URL,
     NEXT_PUBLIC_API_TOKEN: process.env.API_TOKEN,
+    NEXT_PUBLIC_DOMIAN_URL: process.env.DOMIAN_URL,
   },
 };
 

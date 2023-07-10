@@ -26,7 +26,7 @@ const CustomPagination = ({ resPerPage, promotionsCount }) => {
       }
 
       const path = window.location.pathname + "?" + queryParams.toString();
-      console.log("path", path);
+
       router.push(path);
     }
   };
@@ -47,6 +47,5 @@ const CustomPagination = ({ resPerPage, promotionsCount }) => {
     </div>
   );
 };
-
 
 export default CustomPagination;

@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   loginModalAtom,
   profileCardAtom,
   promotionDetailAtom,
   savedPromotionsAtom,
-  categoryHomeAtom,
 } from "@/state/recoilAtoms";
+import {
+  FacebookButton,
+  FacebookCount,
+  TwitterButton,
+  TwitterCount,
+} from "react-social";
 import { convertTimestamp } from "@/utils/convertTimestamp";
 import { useRouter } from "next/router";
 
@@ -30,8 +35,6 @@ const PromotionDtail = ({ promotionData, error }) => {
   const [promotionDetailData, setPromotionDetailData] =
     useRecoilState(promotionDetailAtom);
 
-  const category = useRecoilValue(categoryHomeAtom);
-  console.log(category);
   const handleHoverSavePromotion = () => {
     setIsHoveredSavePromotion(!isHoveredSavePromotion);
   };
@@ -120,6 +123,7 @@ const PromotionDtail = ({ promotionData, error }) => {
       setIsPromotionSaved(true);
     }
   };
+  let url = `${process.env.NEXT_PUBLIC_DOMIAN_URL}/promotion/${router.query.id}`;
 
   return (
     <>
@@ -308,18 +312,29 @@ const PromotionDtail = ({ promotionData, error }) => {
                           Share This Deal
                         </h1>
                         <div className="flex flex-row w-full gap-4">
-                          <Image
-                            src={"/facebook.svg"}
-                            alt="Facebook"
-                            width={40}
-                            height={40}
-                          />
-                          <Image
-                            src={"/twitter.svg"}
-                            alt=" Twitter"
-                            width={40}
-                            height={40}
-                          />
+                          <FacebookButton url={url} appId={940982600493338}>
+                            <Image
+                              src={"/facebook.png"}
+                              alt="Facebook"
+                              className=" cursor-pointer"
+                              width={40}
+                              height={40}
+                            />
+                            <FacebookCount url={url} />
+                          </FacebookButton>
+                          <TwitterButton
+                            url={url}
+                            hashtags={["travel", "adventure"]}
+                          >
+                            <Image
+                              src={"/twitter.png"}
+                              alt="Twitter"
+                              className=" cursor-pointer"
+                              width={40}
+                              height={40}
+                            />
+                            <TwitterCount url={url} />
+                          </TwitterButton>
                         </div>
                       </div>
                     </section>
@@ -358,7 +373,6 @@ export const getServerSideProps = async (context) => {
     }
 
     const promotionData = data.data;
-    console.log(promotionData);
     return {
       props: {
         promotionData,

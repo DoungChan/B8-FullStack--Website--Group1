@@ -20,8 +20,6 @@ const CategoryDetail = ({ data, error }) => {
     }
   }, [data]);
 
-  console.log(data);
-
   const categoryId = router.query.categoryId;
   const category = categoryInformation.find(
     (category) => category.id === categoryId
@@ -67,7 +65,6 @@ export const getServerSideProps = async (context) => {
   const urlApi = process.env.API_URL;
   const api_token = process.env.API_TOKEN;
   const { categoryId } = context.query;
-  console.log(context.query);
 
   try {
     const res = await fetch(
@@ -93,7 +90,6 @@ export const getServerSideProps = async (context) => {
       },
     };
   } catch (error) {
-    console.log(error);
     return {
       props: {
         error: true,
