@@ -154,6 +154,10 @@ const PromotionForm = () => {
 
   return (
     <ProtectedRoute>
+      <Head>
+        <title>Create Promotion | PromoKh</title>
+        <link rel="icon" href="/icon.png" />
+      </Head>
       <div className="flex h-max w-full p-10 flex-col self-center">
         <div className=" text-font_color text-2xl font-bold self-start py-10 w-full max-sm:mt-12">
           Post a new Promotion 🎉
