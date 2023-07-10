@@ -124,7 +124,7 @@ const PromotionDtail = ({ promotionData, error }) => {
     }
   };
   let url = `${process.env.NEXT_PUBLIC_DOMIAN_URL}/promotion/${router.query.id}`;
-
+  const postFormat = `Check out the new promotion on PromoKh! ${promotionData.promotion.title} ${url}`;
   return (
     <>
       <Head>
@@ -323,7 +323,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                             <FacebookCount url={url} />
                           </FacebookButton>
                           <TwitterButton
-                            url={url}
+                            url={postFormat}
                             hashtags={["travel", "adventure"]}
                           >
                             <Image
@@ -333,7 +333,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                               width={40}
                               height={40}
                             />
-                            <TwitterCount url={url} />
+                            <TwitterCount url={postFormat} />
                           </TwitterButton>
                         </div>
                       </div>
