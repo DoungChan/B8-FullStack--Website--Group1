@@ -37,11 +37,8 @@ const UnauthorizeComponent = () => {
               Back to Home Page 🏠 ({countDown})
             </button>
           </Link>
-          <div className=" text-gray-500 text-sm mt-3 ">
-            Dont have an account? Sign up
-          </div>
         </div>
-      </div>{" "}
+      </div>
     </>
   );
 };

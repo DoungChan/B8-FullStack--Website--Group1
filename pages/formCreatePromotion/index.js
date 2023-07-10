@@ -1,90 +1,154 @@
-import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
-import { stringify } from "postcss";
+import clientApiClient from "@/utils/clientApiClient";
 import { useState } from "react";
+import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 import Head from "next/head";
-const upload = require("../../public/Upload.svg");
 const PromotionForm = () => {
   const [category, setCategory] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [categories, setCategories] = useState([]);
   const categoryPress = () => {
     setShowCategory((prev) => !prev);
   };
   const [showCategory, setShowCategory] = useState(false);
-  const categories = [
-    { name: "Travel" },
-    { name: "Food" },
-    { name: "Tech" },
-    { name: "Fashion" },
-    { name: "Grocery" },
-    { name: "Others" },
-  ];
+  const get_categories = async () => {
+    const url = "api/promotion/category";
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      clientApiClient.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
+      const response = await clientApiClient.get(url);
+      console.log(response.data.data);
+      setCategories(response.data.data);
+      setShowCategory((prev) => !prev);
 
-  // Features
+      console.log(categories);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const [filesFeature, setFileFeature] = useState([]);
   const [message, setMessage] = useState();
-  // Promotions
   const [filesPromotion, setPromotionFile] = useState([]);
   const [promotionMessage, setPromotionMessage] = useState();
-  const [form, setForm] = useState({
-    title: "",
-    location: "",
-    startDate: "",
-    endDate: "",
-    offer: "",
-    fullPrice: "",
-    priceAfterDiscount: "",
-    detail: "",
-  });
-
-  const handleChangeForm = (e) => {
-    e.preventDefault();
-    setForm({
-      title: e.target.form.title.value,
-      location: e.target.form.location.value,
-    });
-  };
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageList, setImageList] = useState([]);
 
   const changeCategory = ({ item }) => {
     setCategory(item.name);
     setShowCategory(false);
+    setCategoryId(item.id);
   };
 
-  const handleFeatureFile = (e) => {
+  console.log(imageList);
+
+  const handleFeatureFile = async (e) => {
+    const url = "api/generate-upload-url";
     setMessage("");
     const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
     let file = e.target.files;
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      clientApiClient.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
+      const response = await clientApiClient.get(url);
+      await fetch(response.data.data, {
+        method: "PUT",
+        body: file[0],
+      });
+      setImageUrl(response.data.data.split("?")[0]);
+    } catch (error) {
+      console.log(error);
+    }
     if (validImageTypes.includes(file[0]["type"])) {
       setFileFeature([file[0]]);
-    } else {
-      setMessage("Only images accepted!");
     }
-
-    // for (let i = 0; i < file.length; i++) {
-    //   const fileType = file[i]["type"];
-    //   const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
-    //   if (validImageTypes.includes(fileType)) {
-    //     setFileFeature([...filesFeature, file[i]]);
-    //   } else {
-    //     setMessage("only images accepted");
-    //   }
-    // }
   };
-  const removeImage = (i) => {
-    setFileFeature(filesFeature.filter((x) => x.name !== i));
-  };
-
-  const handlePromotionFile = (e) => {
+  const handlePromotionFile = async (e) => {
+    const url = "api/generate-upload-url";
     setPromotionMessage("");
+    const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
     let file = e.target.files;
     for (let i = 0; i < file.length; i++) {
       const fileType = file[i]["type"];
-      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
       if (validImageTypes.includes(fileType)) {
+        try {
+          const accessToken = localStorage.getItem("accessToken");
+          clientApiClient.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+          const response = await clientApiClient.get(url);
+          await fetch(response.data.data, {
+            method: "PUT",
+            body: file[i],
+          });
+          setImageList((prev) => [...prev, response.data.data.split("?")[0]]);
+        } catch (error) {
+          console.log(error);
+        }
         setPromotionFile([...filesPromotion, file[i]]);
       } else {
         setMessage("Only images accepted");
       }
     }
   };
+
+  const handleSubmitForm = async (event) => {
+    setIsLoading(true);
+    event.preventDefault();
+    const form = event.target;
+    console.log(form);
+    const title = form.title.value;
+    const old_price = form.old_price.value;
+    const discount_percentage = form.discount_percentage.value;
+    const discount_price = form.discount_price.value;
+    const start_date = form.start_date.value;
+    const end_date = form.end_date.value;
+    const location = form.location.value;
+    const promotion_detail = form.promotion_detail.value;
+    const contact_number = form.contact_number.value;
+    const facebook_name = form.facebook_name.value;
+    const promotion_url = form.promotion_url.value;
+
+    const url = "api/promotion/add";
+
+    const body = {
+      title,
+      category_id: categoryId.toString(),
+      old_price,
+      discount_price,
+      discount_percentage,
+      feature_image_url: imageUrl,
+      image_url_list: imageList,
+      start_date: new Date(start_date),
+      end_date: new Date(end_date),
+      facebook_name,
+      location,
+      promotion_detail,
+      contact_number,
+      promotion_url,
+    };
+
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      clientApiClient.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
+      const response = await clientApiClient.post(url, { body });
+      alert("Promotion Created.");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeImage = (i) => {
+    setFileFeature(filesFeature.filter((x) => x.name !== i));
+  };
+
   const removePromotionImage = (i) => {
     setPromotionFile(filesPromotion.filter((x) => x.name !== i));
   };
@@ -99,46 +163,58 @@ const PromotionForm = () => {
         <div className=" text-font_color text-2xl font-bold self-start py-10 w-full max-sm:mt-12">
           Post a new Promotion 🎉
         </div>
-        <form className="flex justify-between w-full h-full flex-col max-sm:-mt-9">
+        <form
+          className="flex justify-between w-full h-full flex-col max-sm:-mt-9"
+          onSubmit={handleSubmitForm}
+        >
           {/* first row */}
           <div className="flex max-sm:block">
             <input
+              required
               className="border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3"
               type="text"
               id="title"
               placeholder="Promotion title or Shop name"
-              onChange={handleChangeForm}
-              value={form.title}
             />
             <div className="w-5" />
             <input
+              required
               className=" border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3"
               type="text"
               id="location"
               placeholder="Shop Location"
-              onChange={handleChangeForm}
-              value={form.location}
             />
           </div>
           {/* second row */}
           <div className=" flex max-sm:block">
             <input
+              required
               className="  border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3"
               type="text"
+              id="start_date"
               placeholder="Promotion Start Date"
+              onFocus={(e) => (e.target.type = "date")}
+              onBlur={(e) => (e.target.type = "text")}
             />
             <div className="w-5" />
+
             <input
+              required
               className=" border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3 "
-              type="text"
+              type="date"
+              id="end_date"
               placeholder="Promotion End Date"
+              onFocus={(e) => (e.target.type = "date")}
+              onBlur={(e) => (e.target.type = "text")}
             />
           </div>
           {/* third row */}
           <div className=" flex max-sm:block">
             <input
+              required
               className="  border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-2/6 max-sm:w-full mt-3"
               type="text"
+              id="discount_percentage"
               placeholder="Discount Offer"
             />
             <div className="w-5" />
@@ -146,6 +222,8 @@ const PromotionForm = () => {
             <input
               className=" border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-2/6 max-sm:w-full mt-3 "
               type="text"
+              id="old_price"
+              required
               placeholder="Full Price"
             />
             <div className="w-5" />
@@ -153,6 +231,8 @@ const PromotionForm = () => {
             <input
               className=" border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-2/6 max-sm:w-full mt-3 "
               type="text"
+              id="discount_price"
+              required
               placeholder="Price after Discount"
             />
           </div>
@@ -160,7 +240,8 @@ const PromotionForm = () => {
           <div className="w-full relative cursor-pointer ">
             <div
               type="button"
-              onClick={categoryPress}
+              required
+              onClick={() => get_categories()}
               className={
                 showCategory
                   ? " flex border-b-0 mt-3 h-10 content-start border flex-row justify-between items-start border-gray-400 rounded-b-none  shadow-inner rounded-md p-2 px-4 w-full"
@@ -381,6 +462,7 @@ const PromotionForm = () => {
             className=" mt-3 border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4  w-full h-20  "
             type="text"
             placeholder="Detail"
+            id="promotion_detail"
             rows="4"
             cols="50"
           ></textarea>
@@ -388,6 +470,7 @@ const PromotionForm = () => {
           <input
             className="mt-3 border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-full  "
             type="text"
+            id="promotion_url"
             placeholder="Referral Link or deep link"
           />
           {/* seventh row */}
@@ -396,23 +479,25 @@ const PromotionForm = () => {
               className="  border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3"
               type="text"
               placeholder="Contact Number"
+              id="contact_number"
             />
             <div className="w-5" />
             <input
               className="border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3 "
               type="text"
+              id="facebook_name"
               placeholder="Facebook Page"
             />
           </div>
+          <div className="flex h-50 pt-5 ">
+            <button
+              className="h-full bg-primary hover:bg-blue-700 mt-3 py-2 px-5 rounded-lg font-medium  "
+              onClick={() => {}}
+            >
+              Post
+            </button>
+          </div>
         </form>
-        <div className="flex h-50 pt-5 ">
-          <button
-            className="h-full bg-primary hover:bg-blue-700 mt-3 py-2 px-5 rounded-lg font-medium  "
-            onClick={() => {}}
-          >
-            Post
-          </button>
-        </div>
       </div>
     </ProtectedRoute>
   );

@@ -33,7 +33,7 @@ export default function Feature({ featureData, error }) {
               featureData.data
                 .filter(
                   (promotion) =>
-                    promotion.user_id === "649d25de6e7371617e6db0f2"
+                    promotion.user_id === "64a671105babe00444cf9fbe"
                 )
                 .map((promotion, index) => (
                   <div className="p-2" key={index}>

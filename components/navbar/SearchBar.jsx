@@ -10,7 +10,6 @@ const SearchBar = () => {
   const handleChange = (e) => {
     e.preventDefault();
     setSearchValue(e.target.value);
-    console.log("searchValue", searchValue);
   };
   const handleSubmit = (e) => {
     e.preventDefault();

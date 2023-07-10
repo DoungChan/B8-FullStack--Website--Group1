@@ -79,6 +79,11 @@ export const loginModalAtom = atom({
   default: false,
 });
 
+export const signUpModalAtom = atom({
+  key: "signUpModalAtom",
+  default: false,
+});
+
 export const savedPromotionsAtom = atom({
   key: "savedPromotionsAtom",
   default: [],

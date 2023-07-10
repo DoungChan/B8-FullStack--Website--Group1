@@ -10,7 +10,7 @@ clientApiClient.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 403) {
+    if (error.response && (error.response.status === 403 || error.response.status === 401)) {
       const refreshToken = localStorage.getItem("refreshToken");
 
       if (refreshToken) {
@@ -20,6 +20,8 @@ clientApiClient.interceptors.response.use(
           });
 
           const { accessToken } = response.data.data;
+
+          localStorage.setItem("accessToken", accessToken);
 
           clientApiClient.defaults.headers.common[
             "Authorization"
