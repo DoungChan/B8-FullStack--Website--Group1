@@ -62,12 +62,13 @@ export const getServerSideProps = async (context) => {
   const urlApi = process.env.API_URL;
   const api_token = process.env.API_TOKEN;
   const searchValue = context.query.search || "";
-  const page = context.query.page || 0;
+  const page = context.query.page || 1;
   const size = context.query.size || 24;
+  const apiPage = page - 1;
   if (searchValue === "") {
     try {
       const res = await fetch(
-        `${urlApi}/promotion/get?category_Id=&page=${page}&size=${size}`,
+        `${urlApi}/promotion/get?category_Id=&page=${apiPage}&size=${size}`,
         {
           headers: {
             "api-token": `${api_token}`,
