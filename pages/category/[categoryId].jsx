@@ -39,7 +39,7 @@ const CategoryDetail = ({ data, error }) => {
           <div className="flex justify-center">
             {/* Rest of the category detail page */}
             <div>
-              <h1 className="my-8 text-2xl font-bold text-font_color">
+              <h1 className="my-8 text-2xl font-bold text-font_color underline underline-offset-8 decoration-softPurple decoration-4">
                 {categoryName}
               </h1>
               <div>
