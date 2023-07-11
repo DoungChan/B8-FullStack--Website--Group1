@@ -21,8 +21,6 @@ const PromotionForm = () => {
       console.log(response.data.data);
       setCategories(response.data.data);
       setShowCategory((prev) => !prev);
-
-      console.log(categories);
     } catch (error) {
       console.log(error);
     }
@@ -139,7 +137,10 @@ const PromotionForm = () => {
         "Authorization"
       ] = `Bearer ${accessToken}`;
       const response = await clientApiClient.post(url, { body });
-      alert("Promotion Created.");
+      setTimeout(() => {
+        alert("Promotion Created.");
+      }, 200);
+      window.location.href = "/";
     } catch (error) {
       console.log(error);
     }
@@ -201,7 +202,7 @@ const PromotionForm = () => {
             <input
               required
               className=" border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3 "
-              type="date"
+              type="text"
               id="end_date"
               placeholder="Promotion End Date"
               onFocus={(e) => (e.target.type = "date")}
@@ -237,7 +238,7 @@ const PromotionForm = () => {
             />
           </div>
           {/* row */}
-          <div className="w-full relative cursor-pointer ">
+          <div className="w-full relative cursor-pointer " required>
             <div
               type="button"
               required
@@ -283,6 +284,7 @@ const PromotionForm = () => {
               <div className=" absolute w-full shadow-xl bg-white rounded-b-lg px-5 py-2 border-gray-400 border border-t-0">
                 {categories.map((item) => (
                   <div
+                    required
                     onClick={() => changeCategory({ item })}
                     key={item.name}
                     className=" dark:text-gray-500 text-sm pb-2"
