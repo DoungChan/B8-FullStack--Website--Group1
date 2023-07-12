@@ -31,10 +31,6 @@ export default function Feature({ featureData, error }) {
           <div className="flex flex-row flex-wrap justify-center items-center">
             {featureData &&
               featureData.data
-                .filter(
-                  (promotion) =>
-                    promotion.user_id === "64a671105babe00444cf9fbe"
-                )
                 .map((promotion, index) => (
                   <div className="p-2" key={index}>
                     <div className="w-[360px] sm:w-[410px] h-[350px]">

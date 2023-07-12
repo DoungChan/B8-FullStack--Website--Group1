@@ -4,6 +4,7 @@ const nextConfig = {
     domains: [
       "promo-kh.s3.amazonaws.com",
       "promo-kh.s3.ap-southeast-1.amazonaws.com",
+      "promo-kh.s3-ap-southeast-1.amazonaws.com",
     ],
   },
   env: {
