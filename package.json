@@ -21,7 +21,9 @@
     "react-icons": "^4.9.0",
     "react-js-pagination": "^3.0.3",
     "react-loader-spinner": "^5.3.4",
+    "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.23",
+    "react-spinners": "^0.13.8",
     "recoil": "^0.7.7",
     "tailwindcss": "3.3.2"
   }
