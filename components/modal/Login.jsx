@@ -52,18 +52,15 @@ const Login = () => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("userId", userId);
-      setShowModal(false);
       setErrorMessage("");
+      handleClose();
     } catch (error) {
-      if (error.response.data.status === 403) {
-        setErrorMessage("Wrong Credentials.");
-      } else {
-        setErrorMessage("Login failed.");
-      }
-    } finally {
+      setErrorMessage("Wrong Credentials.");
       setIsLoading(false);
-      window.location.reload();
+      return;
     }
+    setIsLoading(false);
+    window.location.reload();
   };
 
   return (
@@ -113,7 +110,11 @@ const Login = () => {
                       minLength={6}
                       maxLength={60}
                     />
-
+                    {errorMessage && (
+                      <div className="flex justify-center text-red-500 text-sm text-center">
+                        {errorMessage}
+                      </div>
+                    )}
                     <button
                       type="submit"
                       className="flex justify-center w-full bg-primary hover:opacity-50 text-white rounded-lg mt-8 font-bold text-xl py-2"
