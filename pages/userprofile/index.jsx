@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import callApi from "@/services/apiCalling";
@@ -68,14 +69,31 @@ const UserProfile = ({ data }) => {
                     </div>
                     <div className="mt-6">
                         {active === "post" ? (
+                            postedPromotions?.length === 0 ? (
+                                <div className="flex justify-center pt-20">
+                                    <div className="flex flex-col items-center">
+                                        <Image src="/icon_images/NoPostedPromo.png" width={250} height={200} alt="No_Post_Promo" />
+                                        <p className="font-bold mt-4 mb-2">No Promotion found</p>
+                                        <p className="mx-2">Looking for a way to promote your product or service?</p>
+                                        <p className="mx-2">Post your promotion here!</p>
+                                    </div>
+                                </div>
+                            ) :(
                             <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
                                 {postedPromotions &&
                                     postedPromotions.map((promotion, index) => {
                                         return <PromotionCard promotion={promotion} key={index} postPromo={true} />;
                                     })}
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+                            </div>)
+                        ) : (savedPromotions?.length === 0 ? (
+                            <div className="flex justify-center pt-20">
+                                <div className="flex flex-col items-center">
+                                    <Image src="/icon_images/NoSavedPromo.png" width={250} height={200} alt="No_Post_Promo" />
+                                    <p className="font-bold mt-4 mb-2">Saved Promotion Now!</p>
+                                    <p className="mx-2">Save your favorite promotions for easy access later.</p>
+                                </div>
+                            </div>) 
+                            : <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
                                 {savedPromotions &&
                                     savedPromotions.map((promotion, index) => {
                                         return <PromotionCard promotion={promotion} key={index} />;

@@ -17,6 +17,7 @@ const override = {
 const PromotionCard = ({ promotion, postPromo = false }) => {
   const [_, setRefetchPostPromotions] = useRecoilState(refetchPostPromotionsAtom);
   const [isDeletePostedPromotionLoading, setIsDeletePostedPromotionLoading] = useState(false);
+  const [mouseHover, setMouseHover] = useState(false);
   // Replace feature_image_url if it is null or empty
   const imageUrl =
     promotion.feature_image_url ||
@@ -39,6 +40,7 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
 
   function closeModal() {
     setIsOpen(false);
+    setMouseHover(false);
   }
 
   const onDeletePromotion = () => {
@@ -54,7 +56,7 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
     })
   }
   return (
-    <div>
+    <div onMouseOver={() => setMouseHover(true)} onMouseOut={() => setMouseHover(false)}>
       <div>
         <Modal
           isOpen={modalIsOpen}
@@ -74,26 +76,9 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
                   size={40}
                 /> <p className=" text-red-600 ml-2">Deleting ...</p></div>
             ) : <div>
-                <button className="border px-10 py-2 rounded mr-4" onClick={closeModal}>Cancel</button>
+                <button className="border px-10 py-2 rounded mr-4 text-black" onClick={closeModal}>Cancel</button>
                 <button className="border px-10 py-2 rounded bg-redDanger text-white" onClick={onDeletePromotion}>Delete</button>
             </div>}
-            
-            {/* {isDeletePostedPromotionLoading ? (<ClipLoader
-              color={color}
-              loading={loading}
-              cssOverride={override}
-              size={150}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />): (
-            )}  */}
-            {/* {!isDeletePostedPromotionLoading &&
-              <div className="flex justify-center items-center">
-                <ClipLoader
-                loading={true}
-                cssOverride={override}
-                size={40}
-              /> <p className=" text-red-600 ml-2">Deleting ...</p></div>} */}
           </div>
         </Modal>
       </div>
@@ -110,7 +95,7 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
               alt={promotion.title}
               className="w-full h-full object-cover rounded-lg"
             />
-            {postPromo && (<div className="absolute top-2 right-2 bg-lightPurple rounded-full w-8 h-8 flex justify-center items-center" onClick={(event => {
+            {(postPromo && mouseHover)  && (<div className="absolute top-2 right-2 bg-red-500 rounded-full w-8 h-8 flex justify-center items-center" onClick={(event => {
               event.preventDefault();
               openModal();
             })}>
