@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import SignUpModal from "../modal/SignUp";
 import Login from "../modal/Login";
