@@ -13,18 +13,23 @@
     "axios": "^1.4.0",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
+    "formidable": "^3.5.0",
     "next": "13.4.4",
+    "next-http-proxy-middleware": "^1.2.5",
     "postcss": "8.4.24",
     "query-string": "^8.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^4.9.0",
     "react-js-pagination": "^3.0.3",
     "react-loader-spinner": "^5.3.4",
     "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.23",
+    "react-social": "^1.10.0",
     "react-spinners": "^0.13.8",
     "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "tailwindcss": "3.3.2"
   }
 }

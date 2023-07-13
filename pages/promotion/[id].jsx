@@ -2,19 +2,26 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   loginModalAtom,
   profileCardAtom,
   promotionDetailAtom,
   savedPromotionsAtom,
 } from "@/state/recoilAtoms";
+import {
+  FacebookButton,
+  FacebookCount,
+  TwitterButton,
+  TwitterCount,
+} from "react-social";
 import { convertTimestamp } from "@/utils/convertTimestamp";
 import { useRouter } from "next/router";
-import { neutral } from "tailwindcss/colors";
+
 import clientApiClient from "@/utils/clientApiClient";
 
 import Head from "next/head";
+
 const PromotionDtail = ({ promotionData, error }) => {
   const router = useRouter();
   const [isHoveredSavePromotion, setIsHoveredSavePromotion] = useState(false);
@@ -28,8 +35,6 @@ const PromotionDtail = ({ promotionData, error }) => {
   const [promotionDetailData, setPromotionDetailData] =
     useRecoilState(promotionDetailAtom);
 
-  const promtiondata = useRecoilValue(promotionDetailAtom);
-
   const handleHoverSavePromotion = () => {
     setIsHoveredSavePromotion(!isHoveredSavePromotion);
   };
@@ -38,10 +43,19 @@ const PromotionDtail = ({ promotionData, error }) => {
   };
 
   useEffect(() => {
-    if (promotionData) {
-      setPromotionDetailData(promotionData);
+    function putPromotionData() {
+      if (promotionData) {
+        setPromotionDetailData(promotionData);
+      }
     }
-  }, [promotionData, setPromotionDetailData]);
+    function handleServerError() {
+      if (error === true) {
+        router.push("/500");
+      }
+    }
+    putPromotionData();
+    handleServerError();
+  }, [promotionData, setPromotionDetailData, error, router]);
 
   useEffect(() => {
     async function getSavedPromotions() {
@@ -74,10 +88,10 @@ const PromotionDtail = ({ promotionData, error }) => {
   }, [savedPromotions, router.query.id]);
 
   const handleGetPromotion = () => {
-    if (promotionData.promotion_detail.image_url_list === "") {
+    if (promotionData.promotion_detail.promotion_url === "") {
       alert("No promotion url");
     } else {
-      window.open(promotionData.promotion_detail.image_url_list);
+      window.open(promotionData.promotion_detail.promotion_url);
     }
   };
 
@@ -110,6 +124,24 @@ const PromotionDtail = ({ promotionData, error }) => {
     }
   };
 
+  let url = `${process.env.NEXT_PUBLIC_DOMIAN_URL}/promotion/${router.query.id}`;
+  const postFormat = `Check out the new promotion on PromoKh! ${promotionData.promotion.title} ${url}`;
+
+  // state hover arrow
+  const [isIconPrevHovered, setIsIconPrevHovered] = useState(false);
+  const [isIconNextHovered, setIsIconNextHovered] = useState(false);
+
+  const handleHoverIconPrev = () => {
+    setIsIconPrevHovered(!isIconPrevHovered);
+  };
+  const handleHoverIconNext = () => {
+    setIsIconNextHovered(!isIconNextHovered);
+  };
+
+  // Convert timestamp to date
+  const endDate = convertTimestamp(promotionData.promotion.end_date);
+  const today = convertTimestamp(Date.now());
+
   return (
     <>
       <Head>
@@ -117,7 +149,7 @@ const PromotionDtail = ({ promotionData, error }) => {
         <link rel="icon" href="/icon.png" />
       </Head>
       <>
-        {error ? (
+        {error === true ? (
           () => router.push("/500")
         ) : (
           <>
@@ -138,10 +170,10 @@ const PromotionDtail = ({ promotionData, error }) => {
                     </div>
                   </div>
                 ) : (
-                  <div>
+                  <div className="mt-10 sm:mt-0">
                     <section className="">
-                      <div className="flex flex-col md:flex-col lg:flex-row w-full md:gap-[50px] gap-0">
-                        <div className="w-full md:w-3/1 lg:w-3/1">
+                      <div className="flex flex-col md:flex-col lg:flex-row w-auto md:gap-[50px] gap-0 justify-center ">
+                        <div className="w-full lg:w-2/3">
                           <h1 className="text-2xl font-bold text-start text-font_color mt-28 lg:md-20">
                             {promotionData.promotion.title}
                           </h1>
@@ -156,44 +188,134 @@ const PromotionDtail = ({ promotionData, error }) => {
                               width={24}
                               height={24}
                             />
-                            <p className="text-primary font-sans font-thin text-sm pl-2">
+                            <p className="text-primary font-sans text-sm pl-2">
                               {promotionData.promotion.location}
                             </p>
                           </button>
-                          <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
-                            <Carousel
-                              infiniteLoop
-                              stopOnHover={true}
-                              showThumbs={false}
-                            >
-                              {promotionData.promotion_detail.image_url_list ===
-                              null ? (
-                                <div>
-                                  <img
-                                    src={
-                                      "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
-                                    }
-                                    alt="Image 1"
-                                    className="object-cover w-full h-[425px] rounded-[15px]"
-                                  />
-                                </div>
+
+                          {promotionData.promotion_detail.image_url_list ===
+                          null ? (
+                            <div className="mt-5 w-full rounded-[15px] overflow-hidden">
+                              <img
+                                src={
+                                  "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
+                                }
+                                alt="Image 1"
+                                className="object-cover w-full h-[425px] rounded-[15px]"
+                              />
+                            </div>
+                          ) : (
+                            <>
+                              {endDate < today ? (
+                                <img
+                                  src={"/expired.png"}
+                                  className=" sm:object-cover mt-5 w-full min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px] "
+                                />
                               ) : (
-                                <div>
-                                  {" "}
-                                  <img
-                                    src={
-                                      promotionData.promotion_detail
-                                        .image_url_list
+                                <div className="!w-fit mt-5 rounded-[15px] overflow-hidden shadow-md border-1">
+                                  <Carousel
+                                    infiniteLoop
+                                    stopOnHover={false}
+                                    showThumbs={false}
+                                    className="w-fit h-fit"
+                                    renderArrowPrev={(
+                                      onClickHandler,
+                                      hasPrev,
+                                      label
+                                    ) =>
+                                      hasPrev && (
+                                        <button
+                                          onMouseEnter={handleHoverIconPrev}
+                                          onMouseLeave={handleHoverIconPrev}
+                                          type="button"
+                                          onClick={onClickHandler}
+                                          title={label}
+                                          style={{
+                                            position: "absolute",
+                                            zIndex: 2,
+                                            left: 15,
+                                            top: "50%",
+                                            transform: "translateY(-50%)",
+                                          }}
+                                        >
+                                          {isIconPrevHovered ? (
+                                            <Image
+                                              src="/previousHover.svg"
+                                              alt="Previous"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          ) : (
+                                            <Image
+                                              src="/previous.svg"
+                                              alt="Previous"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          )}
+                                        </button>
+                                      )
                                     }
-                                    alt="Image 1"
-                                    className="object-cover w-full h-[425px] rounded-[15px]"
-                                  />
+                                    renderArrowNext={(
+                                      onClickHandler,
+                                      hasNext,
+                                      label
+                                    ) =>
+                                      hasNext && (
+                                        <button
+                                          onMouseEnter={handleHoverIconNext}
+                                          onMouseLeave={handleHoverIconNext}
+                                          type="button"
+                                          onClick={onClickHandler}
+                                          title={label}
+                                          style={{
+                                            position: "absolute",
+                                            zIndex: 2,
+                                            right: 15,
+                                            top: "50%",
+                                            transform: "translateY(-50%)",
+                                          }}
+                                        >
+                                          {isIconNextHovered ? (
+                                            <Image
+                                              src="/nextHover.svg"
+                                              alt="Next"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          ) : (
+                                            <Image
+                                              src="/nextArrow.svg"
+                                              alt="Next"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          )}
+                                        </button>
+                                      )
+                                    }
+                                  >
+                                    {promotionData.promotion_detail.image_url_list.map(
+                                      (image, key) => (
+                                        <img
+                                          src={image}
+                                          alt="Image 1"
+                                          key={key}
+                                          className="object-contain bg-black bg-opacity-5 min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px]"
+                                        />
+                                      )
+                                    )}
+                                  </Carousel>
                                 </div>
                               )}
-                            </Carousel>
-                          </div>
+                            </>
+                          )}
                         </div>
-                        <div className="flex flex-col w-full md:w-1/2 lg:w-1/2 mt-3 lg:mt-20 ">
+                        <div className="flex flex-col w-full  lg:w-1/3 mt-3 lg:mt-28 ">
                           <div className="flex flex-row lg:mt-10">
                             <Image
                               src={"/time_primcolor.svg"}
@@ -202,30 +324,34 @@ const PromotionDtail = ({ promotionData, error }) => {
                               width={24}
                               height={24}
                             />
-                            <p className="text-primary font-sans font-thin text-sm pl-2">
+                            <p className="text-primary font-sans text-sm pl-2">
                               {convertTimestamp(
-                                promotionData.promotion_detail.created_date
+                                promotionData.promotion.start_date
+                              )}{" "}
+                              -{" "}
+                              {convertTimestamp(
+                                promotionData.promotion.end_date
                               )}
                             </p>
                           </div>
                           <div className="py-[20px]">
-                            <h1 className="text-font_color font-sans pb-3">
+                            <h1 className="text-font_color font-sans pb-3 font-bold">
                               Detail
                             </h1>
-                            <p className="text-sub_font_color font-sans font-thin text-sm">
+                            <p className="text-font_color font-sans">
                               {promotionData.promotion_detail.promotion_detail}
                             </p>
                           </div>
                           <div className="">
-                            <h1 className="text-font_color font-sans pb-3">
+                            <h1 className="text-font_color font-sans pb-3 font-bold">
                               Contact
                             </h1>
-                            <p className="text-sub_font_color font-sans font-thin text-sm">
+                            <p className="text-font_color font-sans">
                               Tel:{" "}
                               {promotionData.promotion_detail.contact_number}
                             </p>
-                            <p className="text-sub_font_color font-sans font-thin text-sm">
-                              FackBook :{" "}
+                            <p className="text-font_color font-sans">
+                              Facebook :{" "}
                               {promotionData.promotion_detail.facebook_name}
                             </p>
                           </div>
@@ -233,7 +359,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                             <button
                               className={`${
                                 isHoveredSavePromotion
-                                  ? "bg-primary text-white"
+                                  ? "bg-primary opacity-80 text-white"
                                   : "bg-transparent text-primary"
                               } flex justify-center items-center font-sans font-semibold text-sm h-[58px] rounded-[10px] mt-10 border-primary border duration-500 hover:text-white hover:bg-primary`}
                               onMouseEnter={handleHoverSavePromotion}
@@ -275,8 +401,8 @@ const PromotionDtail = ({ promotionData, error }) => {
                             <button
                               className={`duration-500 flex justify-center items-center  font-sans font-semibold text-sm h-[58px] rounded-[10px] mt-2 border-primary border ${
                                 isHoveredGetPromotion
-                                  ? "bg-primary text-white"
-                                  : " bg-transparent text-primary"
+                                  ? "bg-primary opacity-80 text-white"
+                                  : " bg-primary text-white"
                               }`}
                               onClick={() => handleGetPromotion()}
                               onMouseEnter={handleHoverGetPromotion}
@@ -294,18 +420,29 @@ const PromotionDtail = ({ promotionData, error }) => {
                           Share This Deal
                         </h1>
                         <div className="flex flex-row w-full gap-4">
-                          <Image
-                            src={"/facebook.svg"}
-                            alt="Facebook"
-                            width={40}
-                            height={40}
-                          />
-                          <Image
-                            src={"/twitter.svg"}
-                            alt=" Twitter"
-                            width={40}
-                            height={40}
-                          />
+                          <FacebookButton url={url} appId={940982600493338}>
+                            <Image
+                              src={"/facebook.png"}
+                              alt="Facebook"
+                              className=" cursor-pointer"
+                              width={40}
+                              height={40}
+                            />
+                            <FacebookCount url={url} />
+                          </FacebookButton>
+                          <TwitterButton
+                            url={postFormat}
+                            hashtags={["travel", "adventure"]}
+                          >
+                            <Image
+                              src={"/twitter.png"}
+                              alt="Twitter"
+                              className=" cursor-pointer"
+                              width={40}
+                              height={40}
+                            />
+                            <TwitterCount url={postFormat} />
+                          </TwitterButton>
                         </div>
                       </div>
                     </section>

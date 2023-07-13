@@ -53,7 +53,7 @@ function CategoriseOption() {
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="menu-button"
-          tabindex="-1"
+          tabIndex="-1"
         >
           <div
             className="py-1"
@@ -64,9 +64,9 @@ function CategoriseOption() {
               <a
                 key={index}
                 onClick={() => router.push(`/category/${category.id}`)}
-                className="text-gray-700 block px-4 py-2 text-sm cursor-pointer"
+                className="text-gray-700 block px-4 py-2 text-sm cursor-pointer hover:bg-gray-100 hover:text-gray-900 duration-500"
                 role="menuitem"
-                tabindex="-1"
+                tabIndex="-1"
                 id="menu-item-0"
               >
                 {category.name}

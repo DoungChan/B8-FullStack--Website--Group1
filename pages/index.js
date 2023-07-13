@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import PopularPromotions from "@/components/popular/PopularPromotions";
 import Navbar from "../components/navbar/Navbar";
-import UnauthorizeComponent from "@/components/unauthorized/UnauthorizeComponent";
 import PromotionForm from "../pages/formCreatePromotion";
 import Category from "../components/category-feature/Categories";
 import HotPromotion from "../components/category-feature/Feature";
@@ -36,18 +35,14 @@ export const getServerSideProps = async ({ query }) => {
   const api_token = process.env.API_TOKEN;
   const page = query.page || 0;
   const size = query.size || 24;
-  const category_Id = "647975468e324646630dae67";
 
   try {
     const [featureRes, promotionsRes, categoryRes] = await Promise.all([
-      fetch(
-        `${urlApi}/promotion/get?category_Id=647975468e324646630dae69&size=24&page=1`,
-        {
-          headers: {
-            "api-token": `${api_token}`,
-          },
-        }
-      ),
+      fetch(`${urlApi}/promotion/get?category_Id=&size=3&page=1`, {
+        headers: {
+          "api-token": `${api_token}`,
+        },
+      }),
       fetch(`${urlApi}/promotion/get?category_Id=&page=${page}&size=${size}`, {
         headers: {
           "api-token": `${api_token}`,
@@ -64,7 +59,9 @@ export const getServerSideProps = async ({ query }) => {
       promotionsRes.json(),
       categoryRes.json(),
     ]);
-
+    console.log(featureData, "featureData");
+    console.log(promotionsData, "promotionsData");
+    console.log(categoryData, "categoryData");
     return {
       props: {
         featureData,
@@ -73,6 +70,7 @@ export const getServerSideProps = async ({ query }) => {
       },
     };
   } catch (error) {
+    console.log(error, "error");
     return {
       props: {
         error: true,

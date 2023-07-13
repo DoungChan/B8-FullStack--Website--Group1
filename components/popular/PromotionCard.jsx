@@ -18,10 +18,18 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
   const [_, setRefetchPostPromotions] = useRecoilState(refetchPostPromotionsAtom);
   const [isDeletePostedPromotionLoading, setIsDeletePostedPromotionLoading] = useState(false);
   const [mouseHover, setMouseHover] = useState(false);
+  const [scaleImage, setScaleImage] = useState(false);
   // Replace feature_image_url if it is null or empty
   const imageUrl =
     promotion.feature_image_url ||
     "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png";
+  const handleScaleImage = () => {
+    setScaleImage(!scaleImage);
+  };
+
+  // Convert timestamp to date
+  const endData = convertTimestamp(promotion.end_date);
+  const today = convertTimestamp(Date.now());
   const customStyles = {
     content: {
       top: '50%',
@@ -83,9 +91,39 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
         </Modal>
       </div>
       <Link href={`/promotion/${promotion.id}`}>
-        <div className="w-[302px] h-[298px] md:w-[150px] md:h-[298px] lg:w-[302px] lg:h-[298px]">
-          <div className="relative w-full h-[184px]">
-            <img
+        <div className="w-[302px] h-[298px] duration-700 rounded-lg items-center justify-center overflow-hidden transition ease-in-out hover:scale-110"
+          onMouseEnter={handleScaleImage}
+          onMouseLeave={handleScaleImage}>
+          {endData < today ? (
+            <div className="relative w-full h-[184px]">
+              <img
+                src={"expired.png"}
+                className={`${scaleImage ? "scale-105 duration-500" : " duration-500"
+                  } w-full h-full object-cover rounded-lg`}
+              />
+              </div>
+            ) : (
+                <div className="relative w-full h-[184px]">
+              <img
+                src={
+                  promotion.feature_image_url &&
+                    promotion.feature_image_url.length > 0
+                    ? promotion.feature_image_url
+                    : "https://bronzebaxxtanning.com/wp-content/uploads/promo-placeholder.jpg"
+                }
+                alt={promotion.title}
+                className={`${scaleImage ? "scale-105 duration-500" : " duration-500"
+                  } w-full h-full object-cover rounded-lg`}
+                  />
+                  {(postPromo && mouseHover) && (<div className="absolute top-2 right-2 bg-red-500 rounded-full w-8 h-8 flex justify-center items-center" onClick={(event => {
+                    event.preventDefault();
+                    openModal();
+                  })}>
+                    <RiDeleteBin6Line color="white" />
+                  </div>)}
+                </div>
+            )}
+            {/* <img
               src={
                 promotion.feature_image_url &&
                   promotion.feature_image_url.length > 0
@@ -100,9 +138,9 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
               openModal();
             })}>
               <RiDeleteBin6Line color="white" />
-            </div>)}
-          </div>
-          <div className="py-2">
+            </div>)} */}
+          
+          <div className="py-2 px-2">
             <div className="flex items-center text-font_color">
               <BsClock />
               <p className="ml-2 text-font_color">

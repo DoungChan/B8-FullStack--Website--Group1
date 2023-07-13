@@ -31,23 +31,21 @@ export default function Feature({ featureData, error }) {
           <div className="flex flex-row flex-wrap justify-center items-center">
             {featureData &&
               featureData.data
-                .filter(
-                  (promotion) =>
-                    promotion.user_id === "649d25de6e7371617e6db0f2"
-                )
                 .map((promotion, index) => (
                   <div className="p-2" key={index}>
                     <div className="w-[360px] sm:w-[410px] h-[350px]">
-                      <div className="w-full h-[232px]">
-                        <Link href={`/promotion/${promotion.id}`}>
-                          <Image
-                            src={promotion.feature_image_url}
-                            width={400}
-                            height={232}
-                            alt="image"
-                            className="w-full h-full object-cover rounded-lg"
-                          />
-                        </Link>
+                      <div className="relative w-full overflow-hidden bg-cover bg-no-repeat rounded-lg">
+                        <div className="w-full h-[232px]">
+                          <Link href={`/promotion/${promotion.id}`}>
+                            <Image
+                              src={promotion.feature_image_url}
+                              width={400}
+                              height={232}
+                              alt="image"
+                              className="w-full transition duration-500 ease-in-out hover:scale-110"
+                            />
+                          </Link>
+                        </div>
                       </div>
                       <div className="flex flex-col flex-wrap pt-3">
                         <div className="flex flex-row">

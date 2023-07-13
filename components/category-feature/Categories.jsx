@@ -25,19 +25,21 @@ export default function Categories({ categoryData, error }) {
               different Category
             </span>
           </h2>
-          <div className="flex flex-row flex-wrap justify-center items-center">
+          <div className="grid grid-cols-3 md:grid-cols-6 justify-center items-center">
             {categoryData.data &&
               categoryData.data.map((category) => (
                 <div className="p-2" key={category.id}>
-                  <Link href={`/category/${category.id}`}>
-                    <Image
-                      src={category.iconUrl}
-                      alt={`category${category.id}`}
-                      width={200}
-                      height={251}
-                      className="rounded-lg"
-                    />
-                  </Link>
+                  <div className="relative overflow-hidden bg-cover bg-no-repeat rounded-lg">
+                    <Link href={`/category/${category.id}`}>
+                      <Image
+                        src={category.iconUrl}
+                        alt={`category${category.id}`}
+                        width={200}
+                        height={251}
+                        className="transition duration-500 ease-in-out hover:scale-110"
+                      />
+                    </Link>
+                  </div>
                 </div>
               ))}
           </div>

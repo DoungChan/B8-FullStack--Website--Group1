@@ -21,6 +21,8 @@ clientApiClient.interceptors.response.use(
 
           const { accessToken } = response.data.data;
 
+          localStorage.setItem("accessToken", accessToken);
+
           clientApiClient.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${accessToken}`;

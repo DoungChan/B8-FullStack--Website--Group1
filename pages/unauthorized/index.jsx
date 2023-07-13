@@ -14,7 +14,9 @@ const UnauthorizeComponent = () => {
 
     // count down
     const countdownInterval = setInterval(() => {
-      setCountDown((prev) => prev - 1);
+      if (countDown > 0) {
+        setCountDown((prev) => prev - 1);
+      }
     }, 1000);
     return () => {
       clearTimeout(redirectTimer);
@@ -37,11 +39,8 @@ const UnauthorizeComponent = () => {
               Back to Home Page 🏠 ({countDown})
             </button>
           </Link>
-          <div className=" text-gray-500 text-sm mt-3 ">
-            Dont have an account? Sign up
-          </div>
         </div>
-      </div>{" "}
+      </div>
     </>
   );
 };
