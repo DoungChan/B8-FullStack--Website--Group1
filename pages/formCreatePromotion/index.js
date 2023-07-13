@@ -2,13 +2,40 @@ import clientApiClient from "@/utils/clientApiClient";
 import { useState } from "react";
 import ProtectedRoute from "@/components/protectedRoute/ProtectedRoute";
 import Head from "next/head";
+import toast, { Toaster } from "react-hot-toast";
+
+const notify = () =>
+  toast.success("Your promotion has been created  🎉", {
+    style: {
+      border: "1px solid #fff",
+      padding: "16px",
+      color: "#fff",
+      backgroundColor: "#6F47EB",
+    },
+    iconTheme: {
+      primary: "#FFFAEE",
+      secondary: "#6F47EB",
+    },
+  });
+const errorToast = () => {
+  toast.error("Please fill out every field  ⚠️", {
+    style: {
+      border: "1px solid #fff",
+      padding: "16px",
+      color: "#fff",
+      backgroundColor: "#FFA235",
+    },
+    iconTheme: {
+      primary: "#FFFAEE",
+      secondary: "#FFA235",
+    },
+  });
+};
 const PromotionForm = () => {
   const [category, setCategory] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
-  const categoryPress = () => {
-    setShowCategory((prev) => !prev);
-  };
+
   const [showCategory, setShowCategory] = useState(false);
   const get_categories = async () => {
     const url = "api/promotion/category";
@@ -18,7 +45,6 @@ const PromotionForm = () => {
         "Authorization"
       ] = `Bearer ${accessToken}`;
       const response = await clientApiClient.get(url);
-      console.log(response.data.data);
       setCategories(response.data.data);
       setShowCategory((prev) => !prev);
     } catch (error) {
@@ -27,6 +53,7 @@ const PromotionForm = () => {
   };
 
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const [filesFeature, setFileFeature] = useState([]);
   const [message, setMessage] = useState();
@@ -130,19 +157,37 @@ const PromotionForm = () => {
       contact_number,
       promotion_url,
     };
-
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      clientApiClient.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${accessToken}`;
-      const response = await clientApiClient.post(url, { body });
-      setTimeout(() => {
-        alert("Promotion Created.");
-      }, 200);
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error);
+    console.log("data: ", body.image_url_list);
+    if (
+      body.category_id &&
+      body.feature_image_url &&
+      body.image_url_list.length > 0
+    ) {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        clientApiClient.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
+        const response = await clientApiClient.post(url, { body });
+        console.log("respond data: ", response.data);
+        if (response.data.message === "success") {
+          setSuccess(true);
+          console.log("YESSIR", success);
+          notify();
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 300);
+        } else {
+          setSuccess(false);
+          console.log("NOSIR");
+          errorToast();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setSuccess(false);
+      errorToast();
     }
   };
 
@@ -188,26 +233,45 @@ const PromotionForm = () => {
           </div>
           {/* second row */}
           <div className=" flex max-sm:block">
-            <input
-              required
-              className="  border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3"
-              type="text"
-              id="start_date"
-              placeholder="Promotion Start Date"
-              onFocus={(e) => (e.target.type = "date")}
-              onBlur={(e) => (e.target.type = "text")}
-            />
+            <div className=" flex content-start  flex-row justify-between items-start border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3 ">
+              <label className=" text-gray-400 ">Start Date</label>
+              <input
+                className="   min-w-[44%] max-w-[30%] min-h-[100%] bg-gray-200 rounded-md px-2 "
+                required
+                type="date"
+                id="start_date"
+                onBlur={(e) => (e.target.placeholder = "dd/mm/yyy")}
+              />
+            </div>
+            {/* <div
+              class="relative mb-3 border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3"
+              id="datepicker-close-without-confirmation"
+              data-te-input-wrapper-init
+            >
+              <input
+                id="start_date"
+                type="date"
+                class="flex justify-end peer  min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                placeholder="Select a date"
+              />
+              <label
+                for="floatingInput"
+                class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:hidden peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:hidden"
+              >
+                Promotion Start Date
+              </label>
+            </div> */}
             <div className="w-5" />
 
-            <input
-              required
-              className=" border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3 "
-              type="text"
-              id="end_date"
-              placeholder="Promotion End Date"
-              onFocus={(e) => (e.target.type = "date")}
-              onBlur={(e) => (e.target.type = "text")}
-            />
+            <div className=" flex content-start  flex-row justify-between items-start border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4 w-3/6 max-sm:w-full mt-3 ">
+              <label className=" text-gray-400">End Date</label>
+              <input
+                className="   min-w-[44%] max-w-[30%] min-h-[100%] bg-gray-200 rounded-md px-2 "
+                required
+                type="date"
+                id="end_date"
+              />
+            </div>
           </div>
           {/* third row */}
           <div className=" flex max-sm:block">
@@ -237,6 +301,7 @@ const PromotionForm = () => {
               placeholder="Price after Discount"
             />
           </div>
+
           {/* row */}
           <div className="w-full relative cursor-pointer " required>
             <div
@@ -281,13 +346,13 @@ const PromotionForm = () => {
               </div>
             </div>
             {showCategory ? (
-              <div className=" absolute w-full shadow-xl bg-white rounded-b-lg px-5 py-2 border-gray-400 border border-t-0">
+              <div className=" absolute w-full shadow-xl bg-white rounded-b-lg py-2 border-gray-400 border border-t-0">
                 {categories.map((item) => (
                   <div
                     required
                     onClick={() => changeCategory({ item })}
                     key={item.name}
-                    className=" dark:text-gray-500 text-sm pb-2"
+                    className=" dark:text-gray-500 text-sm pb-2 px-5 py-2 hover:bg-lightGray "
                   >
                     {item.name}
                   </div>
@@ -298,7 +363,6 @@ const PromotionForm = () => {
             )}
           </div>
           {/* fourth row */}
-
           <div className=" flex pt-3 items-start max-sm:block ">
             <div class="flex flex-col items-center justify-center w-3/6 max-sm:w-full mt-3">
               <span className="flex justify-center items-center text-[12px] mb-1 text-red-500">
@@ -326,9 +390,10 @@ const PromotionForm = () => {
                   </svg>
                   <p class=" text-sm text-gray-500 dark:text-gray-400">
                     <span class="font-semibold text-gray-500">Click</span> to
-                    upload featured
+                    upload
+                    <span class="font-semibold text-gray-500"> Featured</span>
                   </p>
-                  <p class=" text-sm  dark:text-gray-400">photo</p>
+                  <p class="text-sm font-semibold  dark:text-gray-500">Photo</p>
                 </div>
                 <input
                   id="dropzone-file-feature"
@@ -406,9 +471,12 @@ const PromotionForm = () => {
                   </svg>
                   <p class=" text-sm text-gray-500 dark:text-gray-400">
                     <span class="font-semibold text-gray-500">Click</span> to
-                    upload photos
+                    upload
+                    <span class="font-semibold text-gray-500"> Promotion</span>
                   </p>
-                  <p class=" text-sm  dark:text-gray-400">for promotion</p>
+                  <p class="text-sm font-semibold  dark:text-gray-500">
+                    Photos
+                  </p>
                 </div>
                 <input
                   id="dropzone-file-promotion"
@@ -457,9 +525,7 @@ const PromotionForm = () => {
               </div>
             </div>
           </div>
-
           {/* fifth row */}
-
           <textarea
             className=" mt-3 border border-gray-400 text-font_color text-sm  shadow-inner rounded-md p-2 px-4  w-full h-20  "
             type="text"
@@ -498,10 +564,12 @@ const PromotionForm = () => {
             >
               Post
             </button>
+            <Toaster toastOptions={{ duration: 3000 }} />
           </div>
         </form>
       </div>
     </ProtectedRoute>
   );
 };
+
 export default PromotionForm;
