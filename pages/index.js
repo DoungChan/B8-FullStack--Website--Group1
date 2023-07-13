@@ -14,7 +14,6 @@ export default function Home({
   categoryData,
   error,
 }) {
-  console.log(error);
   return (
     <>
       <Head>
@@ -60,7 +59,9 @@ export const getServerSideProps = async ({ query }) => {
       promotionsRes.json(),
       categoryRes.json(),
     ]);
-
+    console.log(featureData, "featureData");
+    console.log(promotionsData, "promotionsData");
+    console.log(categoryData, "categoryData");
     return {
       props: {
         featureData,

@@ -137,6 +137,11 @@ const PromotionDtail = ({ promotionData, error }) => {
   const handleHoverIconNext = () => {
     setIsIconNextHovered(!isIconNextHovered);
   };
+
+  // Convert timestamp to date
+  const endDate = convertTimestamp(promotionData.promotion.end_date);
+  const today = convertTimestamp(Date.now());
+
   return (
     <>
       <Head>
@@ -187,9 +192,10 @@ const PromotionDtail = ({ promotionData, error }) => {
                               {promotionData.promotion.location}
                             </p>
                           </button>
+
                           {promotionData.promotion_detail.image_url_list ===
                           null ? (
-                            <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
+                            <div className="mt-5 w-full rounded-[15px] overflow-hidden">
                               <img
                                 src={
                                   "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
@@ -199,105 +205,114 @@ const PromotionDtail = ({ promotionData, error }) => {
                               />
                             </div>
                           ) : (
-                            <div className="!w-fit mt-5 rounded-[15px] overflow-hidden shadow-md border-1">
-                              <Carousel
-                                infiniteLoop
-                                stopOnHover={false}
-                                showThumbs={false}
-                                className="w-fit h-fit"
-                                renderArrowPrev={(
-                                  onClickHandler,
-                                  hasPrev,
-                                  label
-                                ) =>
-                                  hasPrev && (
-                                    <button
-                                      onMouseEnter={handleHoverIconPrev}
-                                      onMouseLeave={handleHoverIconPrev}
-                                      type="button"
-                                      onClick={onClickHandler}
-                                      title={label}
-                                      style={{
-                                        position: "absolute",
-                                        zIndex: 2,
-                                        left: 15,
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                      }}
-                                    >
-                                      {isIconPrevHovered ? (
-                                        <Image
-                                          src="/previousHover.svg"
-                                          alt="Previous"
-                                          width={10}
-                                          height={10}
-                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
+                            <>
+                              {endDate < today ? (
+                                <img
+                                  src={"/expired.png"}
+                                  className=" sm:object-cover mt-5 w-full min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px] "
+                                />
+                              ) : (
+                                <div className="!w-fit mt-5 rounded-[15px] overflow-hidden shadow-md border-1">
+                                  <Carousel
+                                    infiniteLoop
+                                    stopOnHover={false}
+                                    showThumbs={false}
+                                    className="w-fit h-fit"
+                                    renderArrowPrev={(
+                                      onClickHandler,
+                                      hasPrev,
+                                      label
+                                    ) =>
+                                      hasPrev && (
+                                        <button
+                                          onMouseEnter={handleHoverIconPrev}
+                                          onMouseLeave={handleHoverIconPrev}
+                                          type="button"
+                                          onClick={onClickHandler}
+                                          title={label}
+                                          style={{
+                                            position: "absolute",
+                                            zIndex: 2,
+                                            left: 15,
+                                            top: "50%",
+                                            transform: "translateY(-50%)",
+                                          }}
+                                        >
+                                          {isIconPrevHovered ? (
+                                            <Image
+                                              src="/previousHover.svg"
+                                              alt="Previous"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          ) : (
+                                            <Image
+                                              src="/previous.svg"
+                                              alt="Previous"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          )}
+                                        </button>
+                                      )
+                                    }
+                                    renderArrowNext={(
+                                      onClickHandler,
+                                      hasNext,
+                                      label
+                                    ) =>
+                                      hasNext && (
+                                        <button
+                                          onMouseEnter={handleHoverIconNext}
+                                          onMouseLeave={handleHoverIconNext}
+                                          type="button"
+                                          onClick={onClickHandler}
+                                          title={label}
+                                          style={{
+                                            position: "absolute",
+                                            zIndex: 2,
+                                            right: 15,
+                                            top: "50%",
+                                            transform: "translateY(-50%)",
+                                          }}
+                                        >
+                                          {isIconNextHovered ? (
+                                            <Image
+                                              src="/nextHover.svg"
+                                              alt="Next"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          ) : (
+                                            <Image
+                                              src="/nextArrow.svg"
+                                              alt="Next"
+                                              width={10}
+                                              height={10}
+                                              className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                            />
+                                          )}
+                                        </button>
+                                      )
+                                    }
+                                  >
+                                    {promotionData.promotion_detail.image_url_list.map(
+                                      (image, key) => (
+                                        <img
+                                          src={image}
+                                          alt="Image 1"
+                                          key={key}
+                                          className="object-contain bg-black bg-opacity-5 min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px]"
                                         />
-                                      ) : (
-                                        <Image
-                                          src="/previous.svg"
-                                          alt="Previous"
-                                          width={10}
-                                          height={10}
-                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
-                                        />
-                                      )}
-                                    </button>
-                                  )
-                                }
-                                renderArrowNext={(
-                                  onClickHandler,
-                                  hasNext,
-                                  label
-                                ) =>
-                                  hasNext && (
-                                    <button
-                                      onMouseEnter={handleHoverIconNext}
-                                      onMouseLeave={handleHoverIconNext}
-                                      type="button"
-                                      onClick={onClickHandler}
-                                      title={label}
-                                      style={{
-                                        position: "absolute",
-                                        zIndex: 2,
-                                        right: 15,
-                                        top: "50%",
-                                        transform: "translateY(-50%)",
-                                      }}
-                                    >
-                                      {isIconNextHovered ? (
-                                        <Image
-                                          src="/nextHover.svg"
-                                          alt="Next"
-                                          width={10}
-                                          height={10}
-                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
-                                        />
-                                      ) : (
-                                        <Image
-                                          src="/nextArrow.svg"
-                                          alt="Next"
-                                          width={10}
-                                          height={10}
-                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
-                                        />
-                                      )}
-                                    </button>
-                                  )
-                                }
-                              >
-                                {promotionData.promotion_detail.image_url_list.map(
-                                  (image, key) => (
-                                    <img
-                                      src={image}
-                                      alt="Image 1"
-                                      key={key}
-                                      className="object-contain bg-black bg-opacity-5 min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px]"
-                                    />
-                                  )
-                                )}
-                              </Carousel>
-                            </div>
+                                      )
+                                    )}
+                                  </Carousel>
+                                </div>
+                              )}
+                            </>
                           )}
                         </div>
                         <div className="flex flex-col w-full  lg:w-1/3 mt-3 lg:mt-28 ">
