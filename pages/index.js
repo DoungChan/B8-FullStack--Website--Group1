@@ -14,6 +14,7 @@ export default function Home({
   categoryData,
   error,
 }) {
+  console.log(error);
   return (
     <>
       <Head>
@@ -68,6 +69,7 @@ export const getServerSideProps = async ({ query }) => {
       },
     };
   } catch (error) {
+    console.log(error, "error");
     return {
       props: {
         error: true,

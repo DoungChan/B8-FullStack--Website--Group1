@@ -123,8 +123,20 @@ const PromotionDtail = ({ promotionData, error }) => {
       setIsPromotionSaved(true);
     }
   };
+
   let url = `${process.env.NEXT_PUBLIC_DOMIAN_URL}/promotion/${router.query.id}`;
   const postFormat = `Check out the new promotion on PromoKh! ${promotionData.promotion.title} ${url}`;
+
+  // state hover arrow
+  const [isIconPrevHovered, setIsIconPrevHovered] = useState(false);
+  const [isIconNextHovered, setIsIconNextHovered] = useState(false);
+
+  const handleHoverIconPrev = () => {
+    setIsIconPrevHovered(!isIconPrevHovered);
+  };
+  const handleHoverIconNext = () => {
+    setIsIconNextHovered(!isIconNextHovered);
+  };
   return (
     <>
       <Head>
@@ -153,10 +165,10 @@ const PromotionDtail = ({ promotionData, error }) => {
                     </div>
                   </div>
                 ) : (
-                  <div>
+                  <div className="mt-10 sm:mt-0">
                     <section className="">
-                      <div className="flex flex-col md:flex-col lg:flex-row w-full md:gap-[50px] gap-0">
-                        <div className="w-full md:w-3/1 lg:w-3/1">
+                      <div className="flex flex-col md:flex-col lg:flex-row w-auto md:gap-[50px] gap-0 justify-center ">
+                        <div className="w-full lg:w-2/3">
                           <h1 className="text-2xl font-bold text-start text-font_color mt-28 lg:md-20">
                             {promotionData.promotion.title}
                           </h1>
@@ -187,11 +199,92 @@ const PromotionDtail = ({ promotionData, error }) => {
                               />
                             </div>
                           ) : (
-                            <div className="flex flex-row mt-5 w-full rounded-[15px] overflow-hidden">
+                            <div className="!w-fit mt-5 rounded-[15px] overflow-hidden shadow-md border-1">
                               <Carousel
                                 infiniteLoop
-                                stopOnHover={true}
+                                stopOnHover={false}
                                 showThumbs={false}
+                                className="w-fit h-fit"
+                                renderArrowPrev={(
+                                  onClickHandler,
+                                  hasPrev,
+                                  label
+                                ) =>
+                                  hasPrev && (
+                                    <button
+                                      onMouseEnter={handleHoverIconPrev}
+                                      onMouseLeave={handleHoverIconPrev}
+                                      type="button"
+                                      onClick={onClickHandler}
+                                      title={label}
+                                      style={{
+                                        position: "absolute",
+                                        zIndex: 2,
+                                        left: 15,
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                      }}
+                                    >
+                                      {isIconPrevHovered ? (
+                                        <Image
+                                          src="/previousHover.svg"
+                                          alt="Previous"
+                                          width={10}
+                                          height={10}
+                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                        />
+                                      ) : (
+                                        <Image
+                                          src="/previous.svg"
+                                          alt="Previous"
+                                          width={10}
+                                          height={10}
+                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                        />
+                                      )}
+                                    </button>
+                                  )
+                                }
+                                renderArrowNext={(
+                                  onClickHandler,
+                                  hasNext,
+                                  label
+                                ) =>
+                                  hasNext && (
+                                    <button
+                                      onMouseEnter={handleHoverIconNext}
+                                      onMouseLeave={handleHoverIconNext}
+                                      type="button"
+                                      onClick={onClickHandler}
+                                      title={label}
+                                      style={{
+                                        position: "absolute",
+                                        zIndex: 2,
+                                        right: 15,
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                      }}
+                                    >
+                                      {isIconNextHovered ? (
+                                        <Image
+                                          src="/nextHover.svg"
+                                          alt="Next"
+                                          width={10}
+                                          height={10}
+                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                        />
+                                      ) : (
+                                        <Image
+                                          src="/nextArrow.svg"
+                                          alt="Next"
+                                          width={10}
+                                          height={10}
+                                          className="w-[40px] h-[40px] md:w-16 md:h-16"
+                                        />
+                                      )}
+                                    </button>
+                                  )
+                                }
                               >
                                 {promotionData.promotion_detail.image_url_list.map(
                                   (image, key) => (
@@ -199,7 +292,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                                       src={image}
                                       alt="Image 1"
                                       key={key}
-                                      className="object-cover w-full h-[425px] rounded-[15px]"
+                                      className="object-contain bg-black bg-opacity-5 min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px]"
                                     />
                                   )
                                 )}
@@ -207,7 +300,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                             </div>
                           )}
                         </div>
-                        <div className="flex flex-col w-full md:w-1/2 lg:w-1/2 mt-3 lg:mt-28 ">
+                        <div className="flex flex-col w-full  lg:w-1/3 mt-3 lg:mt-28 ">
                           <div className="flex flex-row lg:mt-10">
                             <Image
                               src={"/time_primcolor.svg"}
@@ -251,7 +344,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                             <button
                               className={`${
                                 isHoveredSavePromotion
-                                  ? "bg-primary text-white"
+                                  ? "bg-primary opacity-80 text-white"
                                   : "bg-transparent text-primary"
                               } flex justify-center items-center font-sans font-semibold text-sm h-[58px] rounded-[10px] mt-10 border-primary border duration-500 hover:text-white hover:bg-primary`}
                               onMouseEnter={handleHoverSavePromotion}
@@ -293,8 +386,8 @@ const PromotionDtail = ({ promotionData, error }) => {
                             <button
                               className={`duration-500 flex justify-center items-center  font-sans font-semibold text-sm h-[58px] rounded-[10px] mt-2 border-primary border ${
                                 isHoveredGetPromotion
-                                  ? "bg-primary text-white"
-                                  : " bg-transparent text-primary"
+                                  ? "bg-primary opacity-80 text-white"
+                                  : " bg-primary text-white"
                               }`}
                               onClick={() => handleGetPromotion()}
                               onMouseEnter={handleHoverGetPromotion}

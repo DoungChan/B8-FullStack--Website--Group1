@@ -14,7 +14,9 @@ const UnauthorizeComponent = () => {
 
     // count down
     const countdownInterval = setInterval(() => {
-      setCountDown((prev) => prev - 1);
+      if (countDown > 0) {
+        setCountDown((prev) => prev - 1);
+      }
     }, 1000);
     return () => {
       clearTimeout(redirectTimer);

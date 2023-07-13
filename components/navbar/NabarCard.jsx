@@ -6,13 +6,13 @@ import logoutSVG from "public/logout.svg";
 import accountOutline from "public/account-outline.svg";
 import useComponentVisible from "../../utils/hooks";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
+import { useRecoilState } from "recoil";
+import { profileCardAtom } from "@/state/recoilAtoms";
 const NabarCard = ({ handleClickOutside }) => {
   const { push } = useRouter();
   const ref = useComponentVisible(handleClickOutside);
   const isAuth = !!localStorage.getItem("accessToken");
-
+  const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
   function logout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -36,6 +36,7 @@ const NabarCard = ({ handleClickOutside }) => {
               <button
                 className="flex w-full justify-start items-center p-2"
                 type="button"
+                onClick={() => setIsProfileOpen(false)}
               >
                 <Image src={accountOutline} className="w-4 h-4" alt="Love" />
                 <p className="text-primary font-sans font-thin text-sm pl-2">

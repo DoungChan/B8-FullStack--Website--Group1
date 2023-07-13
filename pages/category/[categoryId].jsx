@@ -43,7 +43,7 @@ const CategoryDetail = ({ data, error }) => {
                 {categoryName}
               </h1>
               <div>
-                <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+                <div className="inline-grid grid-cols-1 min-[1025px]:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {data.data.map((promotion, index) => (
                     <PromotionCard promotion={promotion} key={index} />
                   ))}
