@@ -93,8 +93,8 @@ const UserProfile = ({ data }) => {
                       <div className="flex flex-col items-center">
                         <Image
                           src="/icon_images/NoPostedPromo.png"
-                          width={250}
-                          height={200}
+                          width={130}
+                          height={130}
                           alt="No_Post_Promo"
                         />
                         <p className="font-bold mt-4 mb-2 text-font_color">
@@ -127,7 +127,7 @@ const UserProfile = ({ data }) => {
                     <div className="flex flex-col items-center">
                       <Image
                         src="/icon_images/NoSavedPromo.png"
-                        width={250}
+                        width={200}
                         height={200}
                         alt="No_Post_Promo"
                       />
