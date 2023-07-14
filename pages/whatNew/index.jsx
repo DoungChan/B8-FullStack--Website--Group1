@@ -30,13 +30,13 @@ const WhatNew = ({ data, error }) => {
             <SearchNotFound />
           ) : (
             <div className="py-10">
-              <div className="m-10 flex justify-center">
+              <div className="my-20 sm:my-10 flex justify-center">
                 <div>
                   <h1 className="my-8 text-2xl font-bold text-font_color">
                     {"What's new"}
                   </h1>
                   <div>
-                    <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+                    <div className="inline-grid grid-cols-1 min-[1025px]:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                       {data?.data?.map((promotion, index) => {
                         return (
                           <PromotionCard promotion={promotion} key={index} />
@@ -62,12 +62,13 @@ export const getServerSideProps = async (context) => {
   const urlApi = process.env.API_URL;
   const api_token = process.env.API_TOKEN;
   const searchValue = context.query.search || "";
-  const page = context.query.page || 0;
+  const page = context.query.page || 1;
   const size = context.query.size || 24;
+  const apiPage = page - 1;
   if (searchValue === "") {
     try {
       const res = await fetch(
-        `${urlApi}/promotion/get?category_Id=&page=${page}&size=${size}`,
+        `${urlApi}/promotion/get?category_id=&page=${apiPage}&size=${size}`,
         {
           headers: {
             "api-token": `${api_token}`,

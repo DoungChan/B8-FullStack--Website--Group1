@@ -1,40 +1,5 @@
 import { atom } from "recoil";
-//create atoms for category
-export const categoryAtom = atom({
-  key: "categoryAtom",
-  default: [
-    {
-      id: 1,
-      name: "Travel",
-      imageSrc: "/Categories/category1.png",
-    },
-    {
-      id: 2,
-      name: "Food",
-      imageSrc: "/Categories/category2.png",
-    },
-    {
-      id: 3,
-      name: "Tech",
-      imageSrc: "/Categories/category3.png",
-    },
-    {
-      id: 4,
-      name: "Fashion",
-      imageSrc: "/Categories/category4.png",
-    },
-    {
-      id: 5,
-      name: "Grocery",
-      imageSrc: "/Categories/grocery.png",
-    },
-    {
-      id: 6,
-      name: "Others",
-      imageSrc: "/Categories/others.png",
-    },
-  ],
-});
+
 //create atoms for promotion details
 export const promotionDetailAtom = atom({
   key: "promotionDetailAtom",

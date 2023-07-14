@@ -41,10 +41,12 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="hidden sm:inline md:flex md:space-x-4 justify-end items-center w-[500px]">
-          <CategoriseOption onClick={() => handleClickOutside()} />
+        <div className="sm:inline md:flex md:space-x-4 justify-end items-center w-[500px]">
+          <div className="hidden sm:inline ">
+            <CategoriseOption onClick={() => handleClickOutside()} />
+          </div>
           <Link href="/whatNew">
-            <button className="text-sub_font_color font-sans text-sm">
+            <button className="text-sub_font_color font-sans text-sm ">
               <span className={`flex-1 ${whatNewFocus ? "text-primary" : ""}`}>
                 What&apos;s New
               </span>

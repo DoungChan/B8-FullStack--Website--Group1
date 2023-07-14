@@ -10,8 +10,8 @@ const CustomPagination = ({ resPerPage, promotionsCount }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  let page = searchParams.get("page") || 0;
-  page = Number(page) + 1; // Add 1 to convert zero-based to one-based
+  let page = searchParams.get("page") || 1;
+  page = Number(page); 
 
   let queryParams;
 
@@ -20,9 +20,9 @@ const CustomPagination = ({ resPerPage, promotionsCount }) => {
       queryParams = new URLSearchParams(window.location.search);
 
       if (queryParams.has("page")) {
-        queryParams.set("page", String(currentPage - 1)); // Subtract 1 to convert one-based to zero-based
+        queryParams.set("page", String(currentPage)); // Subtract 1 to convert one-based to zero-based
       } else {
-        queryParams.append("page", String(currentPage - 1)); // Subtract 1 to convert one-based to zero-based
+        queryParams.append("page", String(currentPage)); // Subtract 1 to convert one-based to zero-based
       }
 
       const path = window.location.pathname + "?" + queryParams.toString();
@@ -32,7 +32,7 @@ const CustomPagination = ({ resPerPage, promotionsCount }) => {
   };
 
   return (
-    <div className="flex mt-20 justify-center">
+    <div className="flex my-20 justify-center">
       <Pagination
         activePage={page}
         itemsCountPerPage={resPerPage}
@@ -40,9 +40,9 @@ const CustomPagination = ({ resPerPage, promotionsCount }) => {
         onChange={handlePageChange}
         nextPageText={"Next"}
         prevPageText={"Prev"}
-        itemClass="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-        activeLinkClassName="z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 text-sm font-medium text-indigo-600 focus:z-20"
-        activeClass="z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 text-sm font-medium text-indigo-600 focus:z-20"
+        itemClass="relative inline-flex items-center border border-gray-300 px-3 py-2 text-sm font-medium text-gray-500 hover:bg-primary hover:text-white"
+        activeLinkClassName="z-0 inline-flex items-center border border-primary bg-primary text-sm font-medium text-white"
+        activeClass="z-0 inline-flex items-center border border-primary bg-primary text-sm font-medium text-white"
       />
     </div>
   );

@@ -39,11 +39,11 @@ const CategoryDetail = ({ data, error }) => {
           <div className="flex justify-center">
             {/* Rest of the category detail page */}
             <div>
-              <h1 className="my-8 text-2xl font-bold text-font_color">
+              <h1 className="my-8 text-2xl font-bold text-font_color underline underline-offset-8 decoration-softPurple decoration-4">
                 {categoryName}
               </h1>
               <div>
-                <div className="grid grid-cols-4 max-[480px]:grid-cols-1 gap-8">
+                <div className="inline-grid grid-cols-1 min-[1025px]:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {data.data.map((promotion, index) => (
                     <PromotionCard promotion={promotion} key={index} />
                   ))}
@@ -65,10 +65,13 @@ export const getServerSideProps = async (context) => {
   const urlApi = process.env.API_URL;
   const api_token = process.env.API_TOKEN;
   const { categoryId } = context.query;
+  const page = context.query.page || 1;
+  const size = context.query.size || 24;
+  const apiPage = page - 1;
 
   try {
     const res = await fetch(
-      `${urlApi}/promotion/get?category_id=${categoryId}&page=0&size=24`,
+      `${urlApi}/promotion/get?category_id=${categoryId}&page=${apiPage}&size=${size}`,
       {
         headers: {
           "api-token": api_token,
