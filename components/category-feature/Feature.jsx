@@ -41,7 +41,7 @@ export default function Feature({ featureData, error }) {
                             width={400}
                             height={232}
                             alt="image"
-                            className="w-full transition duration-500 ease-in-out hover:scale-110"
+                            className="w-full h-full object-cover transition duration-500 ease-in-out hover:scale-110"
                           />
                         </Link>
                       </div>
