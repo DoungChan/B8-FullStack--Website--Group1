@@ -68,8 +68,6 @@ const PromotionForm = () => {
     setCategoryId(item.id);
   };
 
-  console.log(imageList);
-
   const handleFeatureFile = async (e) => {
     const url = "api/generate-upload-url";
     setMessage("");
@@ -126,7 +124,6 @@ const PromotionForm = () => {
     setIsLoading(true);
     event.preventDefault();
     const form = event.target;
-    console.log(form);
     const title = form.title.value;
     const old_price = form.old_price.value;
     const discount_percentage = form.discount_percentage.value;
@@ -157,7 +154,7 @@ const PromotionForm = () => {
       contact_number,
       promotion_url,
     };
-    console.log("data: ", body.image_url_list);
+
     if (
       body.category_id &&
       body.feature_image_url &&
@@ -169,17 +166,17 @@ const PromotionForm = () => {
           "Authorization"
         ] = `Bearer ${accessToken}`;
         const response = await clientApiClient.post(url, { body });
-        console.log("respond data: ", response.data);
+
         if (response.data.message === "success") {
           setSuccess(true);
-          console.log("YESSIR", success);
+
           notify();
           setTimeout(() => {
             window.location.href = "/";
           }, 300);
         } else {
           setSuccess(false);
-          console.log("NOSIR");
+
           errorToast();
         }
       } catch (error) {

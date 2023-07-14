@@ -59,9 +59,7 @@ export const getServerSideProps = async ({ query }) => {
       promotionsRes.json(),
       categoryRes.json(),
     ]);
-    console.log(featureData, "featureData");
-    console.log(promotionsData, "promotionsData");
-    console.log(categoryData, "categoryData");
+
     return {
       props: {
         featureData,
@@ -70,7 +68,6 @@ export const getServerSideProps = async ({ query }) => {
       },
     };
   } catch (error) {
-    console.log(error, "error");
     return {
       props: {
         error: true,

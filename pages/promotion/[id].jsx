@@ -139,8 +139,11 @@ const PromotionDtail = ({ promotionData, error }) => {
   };
 
   // Convert timestamp to date
-  const endDate = convertTimestamp(promotionData.promotion.end_date);
-  const today = convertTimestamp(Date.now());
+  const endDate = new Date(promotionData.promotion.end_date);
+  endDate.setHours(endDate.getHours() + 24);
+  const today = new Date();
+
+  const hasExpired = endDate < today;
 
   return (
     <>
@@ -195,18 +198,27 @@ const PromotionDtail = ({ promotionData, error }) => {
 
                           {promotionData.promotion_detail.image_url_list ===
                           null ? (
-                            <div className="mt-5 w-full rounded-[15px] overflow-hidden">
-                              <img
-                                src={
-                                  "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
-                                }
-                                alt="Image 1"
-                                className="object-cover w-full h-[425px] rounded-[15px]"
-                              />
-                            </div>
+                            <>
+                              {hasExpired ? (
+                                <img
+                                  src={"/expired.png"}
+                                  className=" sm:object-cover mt-5 w-full min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px] "
+                                />
+                              ) : (
+                                <div className="mt-5 w-full rounded-[15px] overflow-hidden">
+                                  <img
+                                    src={
+                                      "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png"
+                                    }
+                                    alt="Image 1"
+                                    className="object-cover w-full h-[425px] rounded-[15px]"
+                                  />
+                                </div>
+                              )}
+                            </>
                           ) : (
                             <>
-                              {endDate < today ? (
+                              {hasExpired ? (
                                 <img
                                   src={"/expired.png"}
                                   className=" sm:object-cover mt-5 w-full min-[439px]:h-[300px] min-[1800px]:h-[600px] h-[200px] sm:h-[425px] md:h-[425px] xl:h-[525px] rounded-[15px] "
