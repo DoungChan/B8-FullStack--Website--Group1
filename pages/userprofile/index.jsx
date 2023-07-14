@@ -41,11 +41,9 @@ const UserProfile = ({ data }) => {
     }, 1000);
   }, [refetchPostPromotions]);
 
-  console.log(savedPromotions, "savedPromotions");
   const filterSavedPromotions = savedPromotions?.filter(
     (items) => items !== null
   );
-  console.log(filterSavedPromotions, "filterSavedPromotions");
   return (
     <ProtectedRoute>
       <Head>
