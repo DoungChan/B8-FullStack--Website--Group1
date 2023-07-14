@@ -128,7 +128,7 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
           {hasExpired ? (
             <div className="relative w-full h-[184px] rounded-lg overflow-hidden">
               <img
-                src={"expired.png"}
+                src={"/expired.png"}
                 className={`${
                   scaleImage ? "scale-105 duration-500" : " duration-500"
                 } w-full h-full object-cover rounded-lg`}
