@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import logo from "public/Logo.png";
-import login from "public/Login.svg";
+
+import login from "public/login.svg";
+
 import close from "public/close.svg";
 import { useRecoilState } from "recoil";
 import {

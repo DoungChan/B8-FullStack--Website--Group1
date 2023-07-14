@@ -35,9 +35,9 @@ const Navbar = () => {
   return (
     <nav className="w-full top-0 bg-white fixed z-10 pb-3">
       <div className="flex items-center justify-between pr-8 w-full h-16 bg-transparent shadow-sm">
-        <div className="relative flex items-start">
+        <div className="relative flex items-start pl-6">
           <Link href="/">
-            <Image src={logo} width={270} alt="PromoKH" />
+            <Image src={logo} width={250} alt="PromoKH" />
           </Link>
         </div>
 
