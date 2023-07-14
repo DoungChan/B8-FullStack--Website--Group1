@@ -23,9 +23,7 @@ const PromotionCard = ({ promotion, postPromo = false }) => {
   const [mouseHover, setMouseHover] = useState(false);
   const [scaleImage, setScaleImage] = useState(false);
   // Replace feature_image_url if it is null or empty
-  const imageUrl =
-    promotion.feature_image_url ||
-    "https://theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png";
+
   const handleScaleImage = () => {
     setScaleImage(!scaleImage);
   };

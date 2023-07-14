@@ -46,10 +46,6 @@ const PopularPromotions = ({ promotionsData, error }) => {
               </div>
             </div>
           </div>
-          {/* <CustomPagination
-        resPerPage={24}
-        promotionsCount={promotionsData.totalElements}
-      /> */}
         </div>
       )}
     </div>
