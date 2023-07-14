@@ -13,8 +13,7 @@ import loading from "public/loading.svg";
 import clientApiClient from "@/utils/clientApiClient";
 
 const Login = () => {
-  const [showSignUpModal, setShowSignUpModal] = useRecoilState(signUpModalAtom);
-  const [showLoginModal, setShowLoginModal] = useRecoilState(loginModalAtom);
+  const [isShowModal, setShowModal] = useRecoilState(loginModalAtom);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isProfileOpen, setIsProfileOpen] = useRecoilState(profileCardAtom);
   const [errorMessage, setErrorMessage] = React.useState("");
