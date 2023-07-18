@@ -58,6 +58,7 @@ const Navbar = () => {
   const whatNewFocus = router.pathname === "/whatNew" ? true : false;
   return (
     <nav className="w-full top-0 bg-white fixed z-10 pb-3">
+
       <div className="flex items-center justify-around sm:justify-between pr-8 w-full h-16 bg-transparent shadow-sm">
         <div className="relative flex items-start pl-6">
           <Link href="/">
@@ -76,6 +77,7 @@ const Navbar = () => {
               alt="PromoKH"
               className="sm:hidden"
             />
+
           </Link>
         </div>
 
