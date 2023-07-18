@@ -28,7 +28,9 @@ module.exports = {
         blue: "#005EAB",
         softPurple: "#a991f3",
         lightPurple: "#9747FF",
-        redDanger: "#D34038"
+        redDanger: "#D34038",
+        field: "#555462",
+        input_text: "#5E5D6D",
       },
     },
   },
