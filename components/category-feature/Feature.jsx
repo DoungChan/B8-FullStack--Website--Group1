@@ -22,7 +22,7 @@ export default function Feature({ featureData, error }) {
         () => router.push("/500")
       ) : (
         <div className="mt-28 text-font_color">
-          <h2 className="font-bold text-2xl px-2 py-4 pb-8 lg:text-left sm:text-center">
+          <h2 className="font-bold text-2xl px-2 py-4 pb-8 text-left">
             Hey, check out today{" "}
             <span className="underline underline-offset-8 decoration-softPurple decoration-8">
               hottest promotions
@@ -32,9 +32,9 @@ export default function Feature({ featureData, error }) {
             {featureData &&
               featureData.data.map((promotion, index) => (
                 <div className="p-2" key={index}>
-                  <div className="w-[360px] sm:w-[410px] h-[350px]">
+                  <div className="w-[360px] sm:w-[410px] h-[350px] md:w-[240px] lg:w-[410px]">
                     <div className="relative w-full overflow-hidden bg-cover bg-no-repeat rounded-lg">
-                      <div className="w-full h-[232px]">
+                      <div className="w-full h-[232px] md:h-[180px] lg:h-[232px]">
                         <Link href={`/promotion/${promotion.id}`}>
                           <Image
                             src={promotion.feature_image_url}

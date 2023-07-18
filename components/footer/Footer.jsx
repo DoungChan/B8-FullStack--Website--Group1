@@ -32,7 +32,11 @@ const Footer = () => {
             </div>
             <div className="mr-20">
               <p className="font-bold">About Us</p>
-              <p className="pt-2">Bootcamp Group 1</p>
+              <Link href="/aboutUs">
+                <p className="pt-2 hover:underline cursor-pointer">
+                  Bootcamp Group 1
+                </p>
+              </Link>
             </div>
           </div>
         </div>
@@ -40,10 +44,11 @@ const Footer = () => {
       <div className="border-b-2 border-white"></div>
       <div className="py-[24px]">
         <div className="flex justify-between">
-          <p>©2023 PromoKh. All rights reserved</p>
+          <p>&copy;2023 PromoKh. All rights reserved</p>
           <div className="flex">
-            <p className="mr-4">Privacy</p>
-            <p>Terms</p>
+            <Link href="/policy">
+              <p className="mr-4 hover:underline cursor-pointer">Privacy</p>
+            </Link>
           </div>
         </div>
       </div>

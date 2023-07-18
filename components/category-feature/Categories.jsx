@@ -19,7 +19,7 @@ export default function Categories({ categoryData, error }) {
         () => router.push("/500")
       ) : (
         <div className="mt-10 text-font_color">
-          <h2 className="font-bold text-2xl px-2 py-4 pb-6 lg:text-left sm:text-center">
+          <h2 className="font-bold text-2xl px-2 py-4 pb-6 text-left">
             Search{" "}
             <span className="underline underline-offset-8 decoration-softPurple decoration-8">
               different Category
