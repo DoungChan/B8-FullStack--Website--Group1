@@ -4,21 +4,25 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 
 const UnauthorizeComponent = () => {
-  const [countDown, setCountDown] = React.useState(5); // 3 seconds
+  const [countDown, setCountDown] = React.useState(5); // 5 seconds
   const router = useRouter();
   useEffect(() => {
     // time out to home page
     const redirectTimer = setTimeout(() => {
       router.push("/");
     }, 5000);
-
-    // count down
+    const pushRouter = () => {
+      if (countDown === 0) {
+        router.push("/");
+      }
+    };
     const countdownInterval = setInterval(() => {
       if (countDown > 0) {
         setCountDown((prev) => prev - 1);
       }
     }, 1000);
     return () => {
+      pushRouter();
       clearTimeout(redirectTimer);
       clearInterval(countdownInterval);
     };

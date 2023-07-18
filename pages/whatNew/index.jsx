@@ -33,7 +33,11 @@ const WhatNew = ({ data, error }) => {
               <div className="my-20 sm:my-10 flex justify-center">
                 <div>
                   <h1 className="my-8 text-2xl font-bold text-font_color">
-                    {"What's new"}
+                    Check all{" "}
+                    <span className="underline underline-offset-8 decoration-softPurple decoration-4">
+                      Promotions
+                    </span>
+                    
                   </h1>
                   <div>
                     <div className="inline-grid grid-cols-1 min-[1025px]:grid-cols-3 xl:grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

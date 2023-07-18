@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 export const SearchNotFound = () => {
   return (
-    <div className="flex flex-col-reverse md:flex-row justify-center items-center pt-20 h-full ">
+    <div className="flex flex-col-reverse md:flex-row justify-center items-center sm:pt-20 h-full ">
       <div className="mx-10">
         <h1 className="text-[30px] lg:text-[56px] font-bold text-font_color font-sans mb-4">
           No results found...

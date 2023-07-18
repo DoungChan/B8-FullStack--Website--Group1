@@ -148,7 +148,7 @@ const PromotionDtail = ({ promotionData, error }) => {
   return (
     <>
       <Head>
-        <title> PromoTion Detail | PromoKh</title>
+        <title> Promotion Detail | PromoKh</title>
         <link rel="icon" href="/icon.png" />
       </Head>
       <>

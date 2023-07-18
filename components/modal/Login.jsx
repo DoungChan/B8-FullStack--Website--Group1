@@ -88,7 +88,7 @@ const Login = () => {
                   </button>
                 </div>
                 <div className="flex justify-center items-center">
-                  <Image src={logo} width={270} alt="PromoKH" />
+                  <Image src={logo} width={180} alt="PromoKH" />
                 </div>
                 <div className="flex flex-col px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 pb-10">
                   <div className="text-black text-3xl mb-3 font-medium">
