@@ -173,7 +173,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                     </div>
                   </div>
                 ) : (
-                  <div className="mt-10 sm:mt-0">
+                  <div className="">
                     <section className="">
                       <div className="flex flex-col md:flex-col lg:flex-row w-auto md:gap-[50px] gap-0 justify-center ">
                         <div className="w-full lg:w-2/3">
