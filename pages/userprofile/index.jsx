@@ -60,7 +60,7 @@ const UserProfile = ({ data }) => {
         <link rel="icon" href="/icon.png" />
       </Head>
       <div className="min-h-screen p-11">
-        <div className="m-16">
+        <div className="mt-16">
           <div>
             <h1 className="my-8 text-2xl font-bold text-font_color">
               My Profile 💜
