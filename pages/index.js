@@ -21,7 +21,7 @@ export default function Home({
         <link rel="icon" href="/icon.png" />
       </Head>
       <main
-        className={`flex min-h-screen flex-col items-center justify-between `}
+        className={`flex min-h-screen flex-col items-center justify-between sm:px-10 px-5`}
       >
         <Feature featureData={featureData} error={error} />
         <Category categoryData={categoryData} error={error} />
