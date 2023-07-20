@@ -14,7 +14,7 @@ const Policy = () => {
             Privacy Policy
           </h1>
           <p className="text-sub_font_color text-sm">
-            Last Updated: July 18, 2013
+            Last Updated: July 18, 2023
           </p>
           <p className="text-sub_font_color text-base my-10">
             Thank you for using PromoKh, a web application dedicated to

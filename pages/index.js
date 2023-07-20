@@ -21,7 +21,7 @@ export default function Home({
         <link rel="icon" href="/icon.png" />
       </Head>
       <main
-        className={`flex min-h-screen flex-col items-center justify-between `}
+        className={`flex min-h-screen flex-col items-center justify-between mx-5`}
       >
         <Feature featureData={featureData} error={error} />
         <Category categoryData={categoryData} error={error} />
@@ -38,7 +38,7 @@ export const getServerSideProps = async ({ query }) => {
 
   try {
     const [featureRes, promotionsRes, categoryRes] = await Promise.all([
-      fetch(`${urlApi}/promotion/get?category_Id=&size=3&page=1`, {
+      fetch(`${urlApi}/promotion/get?category_Id=&size=24&page=0`, {
         headers: {
           "api-token": `${api_token}`,
         },

@@ -21,6 +21,14 @@ import { useRouter } from "next/router";
 import clientApiClient from "@/utils/clientApiClient";
 
 import Head from "next/head";
+import {
+  FacebookIcon,
+  FacebookMessengerIcon,
+  FacebookMessengerShareButton,
+  FacebookShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+} from "react-share";
 
 const PromotionDtail = ({ promotionData, error }) => {
   const router = useRouter();
@@ -432,16 +440,19 @@ const PromotionDtail = ({ promotionData, error }) => {
                           Share This Deal
                         </h1>
                         <div className="flex flex-row w-full gap-4">
-                          <FacebookButton url={url} appId={940982600493338}>
+                          <FacebookShareButton
+                            url={url}
+                            quote="Check out the new promotion on PromoKh!"
+                          >
                             <Image
                               src={"/facebook.png"}
-                              alt="Facebook"
+                              alt="Twitter"
                               className=" cursor-pointer"
                               width={40}
                               height={40}
                             />
-                            <FacebookCount url={url} />
-                          </FacebookButton>
+                          </FacebookShareButton>
+
                           <TwitterButton
                             url={postFormat}
                             hashtags={["travel", "adventure"]}
@@ -453,8 +464,16 @@ const PromotionDtail = ({ promotionData, error }) => {
                               width={40}
                               height={40}
                             />
-                            <TwitterCount url={postFormat} />
                           </TwitterButton>
+                          <TelegramShareButton url={url}>
+                            <Image
+                              src={"/telegram.png"}
+                              alt="telegram"
+                              className=" cursor-pointer"
+                              width={40}
+                              height={40}
+                            />
+                          </TelegramShareButton>
                         </div>
                       </div>
                     </section>
