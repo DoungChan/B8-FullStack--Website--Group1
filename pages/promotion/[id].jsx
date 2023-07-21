@@ -252,7 +252,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                                           title={label}
                                           style={{
                                             position: "absolute",
-                                            zIndex: 2,
+                                            zIndex: 10,
                                             left: 15,
                                             top: "50%",
                                             transform: "translateY(-50%)",
@@ -292,7 +292,7 @@ const PromotionDtail = ({ promotionData, error }) => {
                                           title={label}
                                           style={{
                                             position: "absolute",
-                                            zIndex: 2,
+                                            zIndex: 10,
                                             right: 15,
                                             top: "50%",
                                             transform: "translateY(-50%)",

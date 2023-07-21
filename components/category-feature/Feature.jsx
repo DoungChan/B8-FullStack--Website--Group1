@@ -76,7 +76,7 @@ function PromotionItem({ promotion }) {
                 height={232}
                 alt="image"
                 className={`${
-                  scaleImage ? "scale-110 duration-500" : "duration-500"
+                  scaleImage ? "scale-105 duration-500" : "duration-500"
                 } w-full h-full object-cover rounded-lg`}
               />
             </div>

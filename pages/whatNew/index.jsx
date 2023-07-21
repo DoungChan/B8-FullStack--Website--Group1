@@ -51,7 +51,7 @@ const WhatNew = ({ data, error }) => {
                 </div>
               </div>
               <CustomPagination
-                resPerPage={24}
+                resPerPage={16}
                 promotionsCount={data.totalElements}
               />
             </div>
@@ -67,7 +67,7 @@ export const getServerSideProps = async (context) => {
   const api_token = process.env.API_TOKEN;
   const searchValue = context.query.search || "";
   const page = context.query.page || 1;
-  const size = context.query.size || 24;
+  const size = context.query.size || 16;
   const apiPage = page - 1;
   if (searchValue === "") {
     try {
